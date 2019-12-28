@@ -26,10 +26,10 @@ import { ApiTest } from "./api";
 import { PartiesView, WaitingParty } from "./pages/party";
 import { ChatRoom } from "./pages/chat";
 import { Layout, Row } from "antd";
-
-const { Header } = Layout;
 import { Menu } from "./pages/menu";
 import { ReviewPage } from "./pages/review";
+
+const { Header } = Layout;
 
 const httpLink = new HttpLink({
   uri: "https://eu1.prisma.sh/peerawas-archavanuntakun-77f2e0/backend/dev"
