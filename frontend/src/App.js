@@ -23,6 +23,7 @@ import {
 } from "react-router-dom";
 import { ApiTest } from "./api";
 import { PartiesView, WaitingParty } from "./pages/party"
+import {ChatRoom} from "./pages/chat"
 
 
 const httpLink = new HttpLink({ uri: 'https://eu1.prisma.sh/peerawas-archavanuntakun-77f2e0/backend/dev' });
@@ -71,7 +72,7 @@ function App() {
           <Route path="/users/:id">{/* user*/}</Route>
           <Route path="/chat/:id">
             {/* chat with party */}
-            
+            <ChatRoom/>
           </Route>
           <Route path="/waitingParty">
             <WaitingParty/>
