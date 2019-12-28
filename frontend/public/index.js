@@ -85,9 +85,10 @@ export const WaitingParty = () => {
     >
       {/* <h4>New Party : {JSON.stringify(data.party)}</h4> */}
       {/* <Link to="/chat/123">Let's Chat</Link> */}
-      <Modal title="Matched" visible={isShow} onOk={()=>{
-         window.location.href = "/chat/123"
-      }
+      <Modal title="Matched" visible={isShow} onOk={
+          ()=> {
+              window.location.href="/chat/123"
+          }
       }></Modal>
     </div>
   );

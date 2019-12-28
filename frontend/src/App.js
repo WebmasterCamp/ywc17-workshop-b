@@ -23,8 +23,10 @@ import {
   useParams
 } from "react-router-dom";
 import { ApiTest } from "./api";
-import { PartiesView, WaitingParty } from "./pages/party";
-import { ChatRoom } from "./pages/chat";
+import { PartiesView, WaitingParty } from "./pages/party"
+import {ChatRoom} from "./pages/chat"
+import {Menu } from "./pages/menu"
+import {ReviewPage} from "./pages/review"
 
 const httpLink = new HttpLink({
   uri: "https://eu1.prisma.sh/peerawas-archavanuntakun-77f2e0/backend/dev"
@@ -77,6 +79,7 @@ function App() {
             <Route path="/static/">
               {/* ... some MOCK static 0,1,2,3,4 */}
             </Route>
+            <Route path="/menu" component={Menu}/>
             {/* view all promotions */}
             <Route path="/promotion/:id" component={PromotionView} />
             <Route path="/createParty/:promoid" component={CreatePartyPage} />
@@ -92,6 +95,7 @@ function App() {
             <Route path="/waitingParty">
               <WaitingParty />
             </Route>
+            <Route path="/review" component={ReviewPage} />
             {/* some finallize route */}
 
             <Route path="/api">
