@@ -1,25 +1,25 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useQuery, useSubscription } from "@apollo/react-hooks";
-import {Card, Button} from "antd"
+import { Card, Button, Modal } from "antd";
 import gql from "graphql-tag";
-import _ from 'lodash'
-import {Link} from "react-router-dom"
+import _ from "lodash";
+import { Link } from "react-router-dom";
+import { gqlReady } from "../../util";
 
 const GET_PARTIES = gql`
   query getAllParties {
-      parties {
+    parties {
+      id
+      title
+      member {
         id
-        title
-        member {
-          id
-          name
-        }
-        confirmedMember {
-          id
-          name
-        }
+        name
       }
-    
+      confirmedMember {
+        id
+        name
+      }
+    }
   }
 `;
 
@@ -34,20 +34,16 @@ export const PartiesView = () => {
   console.log("GET_ALL_PARTIES data : ", data.parties);
   return (
     <div>
-        <Link to="/waitingParty">SUBSCRIBE TO NEW PARTY</Link>
+      <Link to="/waitingParty">SUBSCRIBE TO NEW PARTY</Link>
       {data.parties &&
         data.parties.map((data, index) => (
-        <Card title={data.title || "ไม่มีชื่อ"}>
-          {index}
-        <pre>{JSON.stringify(data)}</pre>
-        
-        <a>
-              JOIN
-          </a>
-          </Card>
+          <Card title={data.title || "ไม่มีชื่อ"}>
+            {index}
+            <pre>{JSON.stringify(data)}</pre>
 
-        ))
-      }
+            <a>JOIN</a>
+          </Card>
+        ))}
     </div>
   );
 };
@@ -66,15 +62,30 @@ const SUBSCRIBE_NEW_PARTY = gql`
 `;
 
 export const WaitingParty = () => {
-    const { data, error, loading } = useSubscription(SUBSCRIBE_NEW_PARTY);
-    if (loading) return <p>Loading ...</p>;
-    if (error) {
-      console.log(error);
-      return <p>error</p>;
-    }
-    console.log(data)
-    return <div>
-        <h4>New Party : {JSON.stringify(data.party)}</h4>
-        <Link to="/chat/123">Let's Chat</Link>
-    </div>;
-}
+  const result = useSubscription(SUBSCRIBE_NEW_PARTY);
+  const [isShow, toggleShow] = useState(false);
+  useEffect(() => {
+    toggleShow(gqlReady(result));
+  }, [result]);
+  // if (loading) return <p>Loading ...</p>;
+  // if (error) {
+  //   console.log(error);
+  //   return <p>error</p>;
+  // }
+  // console.log(data);
+  // gq
+  return (
+    <div
+      style={{
+        backgroundImage: `url("waiting.jpg")`,
+        width: "100vw",
+        height: "100vh",
+        backgroundPosition: "center"
+      }}
+    >
+      {/* <h4>New Party : {JSON.stringify(data.party)}</h4> */}
+      {/* <Link to="/chat/123">Let's Chat</Link> */}
+      <Modal title="Matched" visible={isShow}></Modal>
+    </div>
+  );
+};

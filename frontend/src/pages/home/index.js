@@ -52,6 +52,11 @@ const HomePage = ({ form: { getFieldDecorator, validateFields } }) => {
           </Button>
         </Form.Item>
       </Form>
+      <Link to="/parties">
+        <Button type="danger" htmlType="submit">
+          Find party
+        </Button>
+      </Link>
       <List
         grid={{ gutter: 16, column: 2 }}
         dataSource={promotions}

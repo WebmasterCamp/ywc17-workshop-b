@@ -45,6 +45,7 @@ const CreatePartyPage = ({ form: { getFieldDecorator, validateFields } }) => {
       if (!err) {
         console.log("Received values of form: ", values);
       }
+      window.location = "/waitingParty"
     });
   };
   console.log(coverImageUrl);

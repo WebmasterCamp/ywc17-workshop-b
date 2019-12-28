@@ -23,8 +23,8 @@ import {
   useParams
 } from "react-router-dom";
 import { ApiTest } from "./api";
-import { PartiesView, WaitingParty } from "./pages/party"
-import {ChatRoom} from "./pages/chat"
+import { PartiesView, WaitingParty } from "./pages/party";
+import { ChatRoom } from "./pages/chat";
 
 const httpLink = new HttpLink({
   uri: "https://eu1.prisma.sh/peerawas-archavanuntakun-77f2e0/backend/dev"
@@ -82,12 +82,13 @@ function App() {
             <Route path="/promotion/:id" component={PromotionView} />
             <Route path="/createParty/:promoid" component={CreatePartyPage} />
             <Route path="/parties">
-              <PartiesView/>
+              <PartiesView />
               {/* filter by promotions, location, etc. using URI query  */}
             </Route>
             <Route path="/users/:id">{/* user*/}</Route>
-            <Route path="/chat/:id">{/* chat with party */}
-              <ChatRoom/>
+            <Route path="/chat/:id">
+              {/* chat with party */}
+              <ChatRoom />
             </Route>
             <Route path="/waitingParty">
               <WaitingParty />
