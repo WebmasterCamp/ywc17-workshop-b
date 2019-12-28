@@ -78,7 +78,8 @@ function App() {
           position: "fixed",
           zIndex: 1,
           width: "100%",
-          backgroundColor: "white"
+          backgroundColor: "white",
+          padding: "initial",
         }}
       >
         <Row
