@@ -16,8 +16,8 @@ function App() {
     <Router>
         {/* Template */}
         <Switch>
-          <Route path="/step/">
-            {/* ... some MOCK step 0,1,2,3,4 */}
+          <Route path="/static/">
+            {/* ... some MOCK static 0,1,2,3,4 */}
           </Route>
           <Route path="/promotions">
             {/* view all promotions */}
