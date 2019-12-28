@@ -1,6 +1,7 @@
 import React from "react";
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
+import _ from 'lodash'
 
 const GET_ALL_USERS = gql`
   query getAllUsers {
@@ -58,7 +59,20 @@ export const PromotionTest = () => {
     return <p>error : {error}</p>;
   }
   console.log("GET_ALL_PROMOTIONS data : ", data.promotions);
-  return <h1>Hello {JSON.stringify(data.promotions)}</h1>;
+  return (
+    <div>
+      {data.promotions &&
+        data.promotions.map((data, index) => (
+        <div>
+          {index}
+          {_.map(data, field => {
+            return <li>{field}</li>
+          })}
+          </div>
+        ))
+      }
+    </div>
+  );
 };
 
 export const ApiTest = () => (
@@ -66,4 +80,4 @@ export const ApiTest = () => (
     <UserTest />
     <PromotionTest />
   </div>
-)
+);
