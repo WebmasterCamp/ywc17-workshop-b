@@ -1,7 +1,7 @@
 import React from "react";
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery, useSubscription } from "@apollo/react-hooks";
 import gql from "graphql-tag";
-import _ from 'lodash'
+import _ from "lodash";
 
 const GET_ALL_USERS = gql`
   query getAllUsers {
@@ -56,28 +56,52 @@ export const PromotionTest = () => {
   if (loading) return <p>Loading ...</p>;
   if (error) {
     console.log(error);
-    return <p>error : {error}</p>;
+    return <p>error</p>;
   }
   console.log("GET_ALL_PROMOTIONS data : ", data.promotions);
   return (
     <div>
       {data.promotions &&
         data.promotions.map((data, index) => (
-        <div>
-          {index}
-          {_.map(data, field => {
-            return <li>{field}</li>
-          })}
+          <div>
+            {index}
+            {_.map(data, field => {
+              return <li>{field}</li>;
+            })}
           </div>
-        ))
-      }
+        ))}
     </div>
   );
+};
+
+const SUBSCRIBE_NEW_PARTY = gql`
+  subscription newParty {
+    party {
+      node {
+        id
+        member {
+          name
+        }
+      }
+    }
+  }
+`;
+
+export const NewPartyTest = () => {
+  const { data, error, loading } = useSubscription(SUBSCRIBE_NEW_PARTY);
+  if (loading) return <p>Loading ...</p>;
+  if (error) {
+    console.log(error);
+    return <p>error</p>;
+  }
+  console.log(data)
+  return <h4>New Party : {JSON.stringify(data.party)}</h4>;
 };
 
 export const ApiTest = () => (
   <div>
     <UserTest />
     <PromotionTest />
+    <NewPartyTest />
   </div>
 );
