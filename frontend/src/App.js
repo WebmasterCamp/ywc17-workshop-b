@@ -104,7 +104,7 @@ function App() {
         </Row>
       </Header>
       <ApolloProvider client={client}>
-            <Route path="/tracking/:id" component={Tracking} />
+            
         <div style={{ paddingTop: 64 }}>
           <Router>
             {/* Template */}
