@@ -1,4 +1,26 @@
 type User {
   id: ID! @id
   name: String!
+  profileImageUrl: String
+  party: Party @relation(name: "Joined", link: INLINE)
+}
+
+type Promotion {
+  id: ID! @id
+  coverImageUrl: String
+  title: String!
+  description: String!
+}
+
+type Party {
+  id: ID! @id
+  member: User @relation(name: "Joined")
+  messages: [Chat!]!
+  confirmedMember: User  @relation(name: "Confirmed")
+}
+
+type Chat {
+  id: ID! @id
+  owner: User!
+  message: String!
 }

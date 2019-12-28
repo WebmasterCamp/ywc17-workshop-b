@@ -2,7 +2,19 @@
   // Please don't change this file manually but run `prisma generate` to update it.
   // For more information, please read the docs: https://www.prisma.io/docs/prisma-client/
 
-export const typeDefs = /* GraphQL */ `type AggregateUser {
+export const typeDefs = /* GraphQL */ `type AggregateChat {
+  count: Int!
+}
+
+type AggregateParty {
+  count: Int!
+}
+
+type AggregatePromotion {
+  count: Int!
+}
+
+type AggregateUser {
   count: Int!
 }
 
@@ -10,9 +22,203 @@ type BatchPayload {
   count: Long!
 }
 
+type Chat {
+  id: ID!
+  owner: User!
+  message: String!
+}
+
+type ChatConnection {
+  pageInfo: PageInfo!
+  edges: [ChatEdge]!
+  aggregate: AggregateChat!
+}
+
+input ChatCreateInput {
+  id: ID
+  owner: UserCreateOneInput!
+  message: String!
+}
+
+input ChatCreateManyInput {
+  create: [ChatCreateInput!]
+  connect: [ChatWhereUniqueInput!]
+}
+
+type ChatEdge {
+  node: Chat!
+  cursor: String!
+}
+
+enum ChatOrderByInput {
+  id_ASC
+  id_DESC
+  message_ASC
+  message_DESC
+}
+
+type ChatPreviousValues {
+  id: ID!
+  message: String!
+}
+
+input ChatScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  message: String
+  message_not: String
+  message_in: [String!]
+  message_not_in: [String!]
+  message_lt: String
+  message_lte: String
+  message_gt: String
+  message_gte: String
+  message_contains: String
+  message_not_contains: String
+  message_starts_with: String
+  message_not_starts_with: String
+  message_ends_with: String
+  message_not_ends_with: String
+  AND: [ChatScalarWhereInput!]
+  OR: [ChatScalarWhereInput!]
+  NOT: [ChatScalarWhereInput!]
+}
+
+type ChatSubscriptionPayload {
+  mutation: MutationType!
+  node: Chat
+  updatedFields: [String!]
+  previousValues: ChatPreviousValues
+}
+
+input ChatSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: ChatWhereInput
+  AND: [ChatSubscriptionWhereInput!]
+  OR: [ChatSubscriptionWhereInput!]
+  NOT: [ChatSubscriptionWhereInput!]
+}
+
+input ChatUpdateDataInput {
+  owner: UserUpdateOneRequiredInput
+  message: String
+}
+
+input ChatUpdateInput {
+  owner: UserUpdateOneRequiredInput
+  message: String
+}
+
+input ChatUpdateManyDataInput {
+  message: String
+}
+
+input ChatUpdateManyInput {
+  create: [ChatCreateInput!]
+  update: [ChatUpdateWithWhereUniqueNestedInput!]
+  upsert: [ChatUpsertWithWhereUniqueNestedInput!]
+  delete: [ChatWhereUniqueInput!]
+  connect: [ChatWhereUniqueInput!]
+  set: [ChatWhereUniqueInput!]
+  disconnect: [ChatWhereUniqueInput!]
+  deleteMany: [ChatScalarWhereInput!]
+  updateMany: [ChatUpdateManyWithWhereNestedInput!]
+}
+
+input ChatUpdateManyMutationInput {
+  message: String
+}
+
+input ChatUpdateManyWithWhereNestedInput {
+  where: ChatScalarWhereInput!
+  data: ChatUpdateManyDataInput!
+}
+
+input ChatUpdateWithWhereUniqueNestedInput {
+  where: ChatWhereUniqueInput!
+  data: ChatUpdateDataInput!
+}
+
+input ChatUpsertWithWhereUniqueNestedInput {
+  where: ChatWhereUniqueInput!
+  update: ChatUpdateDataInput!
+  create: ChatCreateInput!
+}
+
+input ChatWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  owner: UserWhereInput
+  message: String
+  message_not: String
+  message_in: [String!]
+  message_not_in: [String!]
+  message_lt: String
+  message_lte: String
+  message_gt: String
+  message_gte: String
+  message_contains: String
+  message_not_contains: String
+  message_starts_with: String
+  message_not_starts_with: String
+  message_ends_with: String
+  message_not_ends_with: String
+  AND: [ChatWhereInput!]
+  OR: [ChatWhereInput!]
+  NOT: [ChatWhereInput!]
+}
+
+input ChatWhereUniqueInput {
+  id: ID
+}
+
 scalar Long
 
 type Mutation {
+  createChat(data: ChatCreateInput!): Chat!
+  updateChat(data: ChatUpdateInput!, where: ChatWhereUniqueInput!): Chat
+  updateManyChats(data: ChatUpdateManyMutationInput!, where: ChatWhereInput): BatchPayload!
+  upsertChat(where: ChatWhereUniqueInput!, create: ChatCreateInput!, update: ChatUpdateInput!): Chat!
+  deleteChat(where: ChatWhereUniqueInput!): Chat
+  deleteManyChats(where: ChatWhereInput): BatchPayload!
+  createParty(data: PartyCreateInput!): Party!
+  updateParty(data: PartyUpdateInput!, where: PartyWhereUniqueInput!): Party
+  upsertParty(where: PartyWhereUniqueInput!, create: PartyCreateInput!, update: PartyUpdateInput!): Party!
+  deleteParty(where: PartyWhereUniqueInput!): Party
+  deleteManyParties(where: PartyWhereInput): BatchPayload!
+  createPromotion(data: PromotionCreateInput!): Promotion!
+  updatePromotion(data: PromotionUpdateInput!, where: PromotionWhereUniqueInput!): Promotion
+  updateManyPromotions(data: PromotionUpdateManyMutationInput!, where: PromotionWhereInput): BatchPayload!
+  upsertPromotion(where: PromotionWhereUniqueInput!, create: PromotionCreateInput!, update: PromotionUpdateInput!): Promotion!
+  deletePromotion(where: PromotionWhereUniqueInput!): Promotion
+  deleteManyPromotions(where: PromotionWhereInput): BatchPayload!
   createUser(data: UserCreateInput!): User!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
@@ -38,7 +244,272 @@ type PageInfo {
   endCursor: String
 }
 
+type Party {
+  id: ID!
+  member: User
+  messages(where: ChatWhereInput, orderBy: ChatOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Chat!]
+  confirmedMember: User
+}
+
+type PartyConnection {
+  pageInfo: PageInfo!
+  edges: [PartyEdge]!
+  aggregate: AggregateParty!
+}
+
+input PartyCreateInput {
+  id: ID
+  member: UserCreateOneWithoutPartyInput
+  messages: ChatCreateManyInput
+  confirmedMember: UserCreateOneInput
+}
+
+input PartyCreateOneWithoutMemberInput {
+  create: PartyCreateWithoutMemberInput
+  connect: PartyWhereUniqueInput
+}
+
+input PartyCreateWithoutMemberInput {
+  id: ID
+  messages: ChatCreateManyInput
+  confirmedMember: UserCreateOneInput
+}
+
+type PartyEdge {
+  node: Party!
+  cursor: String!
+}
+
+enum PartyOrderByInput {
+  id_ASC
+  id_DESC
+}
+
+type PartyPreviousValues {
+  id: ID!
+}
+
+type PartySubscriptionPayload {
+  mutation: MutationType!
+  node: Party
+  updatedFields: [String!]
+  previousValues: PartyPreviousValues
+}
+
+input PartySubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: PartyWhereInput
+  AND: [PartySubscriptionWhereInput!]
+  OR: [PartySubscriptionWhereInput!]
+  NOT: [PartySubscriptionWhereInput!]
+}
+
+input PartyUpdateInput {
+  member: UserUpdateOneWithoutPartyInput
+  messages: ChatUpdateManyInput
+  confirmedMember: UserUpdateOneInput
+}
+
+input PartyUpdateOneWithoutMemberInput {
+  create: PartyCreateWithoutMemberInput
+  update: PartyUpdateWithoutMemberDataInput
+  upsert: PartyUpsertWithoutMemberInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: PartyWhereUniqueInput
+}
+
+input PartyUpdateWithoutMemberDataInput {
+  messages: ChatUpdateManyInput
+  confirmedMember: UserUpdateOneInput
+}
+
+input PartyUpsertWithoutMemberInput {
+  update: PartyUpdateWithoutMemberDataInput!
+  create: PartyCreateWithoutMemberInput!
+}
+
+input PartyWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  member: UserWhereInput
+  messages_every: ChatWhereInput
+  messages_some: ChatWhereInput
+  messages_none: ChatWhereInput
+  confirmedMember: UserWhereInput
+  AND: [PartyWhereInput!]
+  OR: [PartyWhereInput!]
+  NOT: [PartyWhereInput!]
+}
+
+input PartyWhereUniqueInput {
+  id: ID
+}
+
+type Promotion {
+  id: ID!
+  coverImageUrl: String
+  title: String!
+  description: String!
+}
+
+type PromotionConnection {
+  pageInfo: PageInfo!
+  edges: [PromotionEdge]!
+  aggregate: AggregatePromotion!
+}
+
+input PromotionCreateInput {
+  id: ID
+  coverImageUrl: String
+  title: String!
+  description: String!
+}
+
+type PromotionEdge {
+  node: Promotion!
+  cursor: String!
+}
+
+enum PromotionOrderByInput {
+  id_ASC
+  id_DESC
+  coverImageUrl_ASC
+  coverImageUrl_DESC
+  title_ASC
+  title_DESC
+  description_ASC
+  description_DESC
+}
+
+type PromotionPreviousValues {
+  id: ID!
+  coverImageUrl: String
+  title: String!
+  description: String!
+}
+
+type PromotionSubscriptionPayload {
+  mutation: MutationType!
+  node: Promotion
+  updatedFields: [String!]
+  previousValues: PromotionPreviousValues
+}
+
+input PromotionSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: PromotionWhereInput
+  AND: [PromotionSubscriptionWhereInput!]
+  OR: [PromotionSubscriptionWhereInput!]
+  NOT: [PromotionSubscriptionWhereInput!]
+}
+
+input PromotionUpdateInput {
+  coverImageUrl: String
+  title: String
+  description: String
+}
+
+input PromotionUpdateManyMutationInput {
+  coverImageUrl: String
+  title: String
+  description: String
+}
+
+input PromotionWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  coverImageUrl: String
+  coverImageUrl_not: String
+  coverImageUrl_in: [String!]
+  coverImageUrl_not_in: [String!]
+  coverImageUrl_lt: String
+  coverImageUrl_lte: String
+  coverImageUrl_gt: String
+  coverImageUrl_gte: String
+  coverImageUrl_contains: String
+  coverImageUrl_not_contains: String
+  coverImageUrl_starts_with: String
+  coverImageUrl_not_starts_with: String
+  coverImageUrl_ends_with: String
+  coverImageUrl_not_ends_with: String
+  title: String
+  title_not: String
+  title_in: [String!]
+  title_not_in: [String!]
+  title_lt: String
+  title_lte: String
+  title_gt: String
+  title_gte: String
+  title_contains: String
+  title_not_contains: String
+  title_starts_with: String
+  title_not_starts_with: String
+  title_ends_with: String
+  title_not_ends_with: String
+  description: String
+  description_not: String
+  description_in: [String!]
+  description_not_in: [String!]
+  description_lt: String
+  description_lte: String
+  description_gt: String
+  description_gte: String
+  description_contains: String
+  description_not_contains: String
+  description_starts_with: String
+  description_not_starts_with: String
+  description_ends_with: String
+  description_not_ends_with: String
+  AND: [PromotionWhereInput!]
+  OR: [PromotionWhereInput!]
+  NOT: [PromotionWhereInput!]
+}
+
+input PromotionWhereUniqueInput {
+  id: ID
+}
+
 type Query {
+  chat(where: ChatWhereUniqueInput!): Chat
+  chats(where: ChatWhereInput, orderBy: ChatOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Chat]!
+  chatsConnection(where: ChatWhereInput, orderBy: ChatOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ChatConnection!
+  party(where: PartyWhereUniqueInput!): Party
+  parties(where: PartyWhereInput, orderBy: PartyOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Party]!
+  partiesConnection(where: PartyWhereInput, orderBy: PartyOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PartyConnection!
+  promotion(where: PromotionWhereUniqueInput!): Promotion
+  promotions(where: PromotionWhereInput, orderBy: PromotionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Promotion]!
+  promotionsConnection(where: PromotionWhereInput, orderBy: PromotionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PromotionConnection!
   user(where: UserWhereUniqueInput!): User
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
@@ -46,12 +517,17 @@ type Query {
 }
 
 type Subscription {
+  chat(where: ChatSubscriptionWhereInput): ChatSubscriptionPayload
+  party(where: PartySubscriptionWhereInput): PartySubscriptionPayload
+  promotion(where: PromotionSubscriptionWhereInput): PromotionSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
 }
 
 type User {
   id: ID!
   name: String!
+  profileImageUrl: String
+  party: Party
 }
 
 type UserConnection {
@@ -63,6 +539,24 @@ type UserConnection {
 input UserCreateInput {
   id: ID
   name: String!
+  profileImageUrl: String
+  party: PartyCreateOneWithoutMemberInput
+}
+
+input UserCreateOneInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateOneWithoutPartyInput {
+  create: UserCreateWithoutPartyInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateWithoutPartyInput {
+  id: ID
+  name: String!
+  profileImageUrl: String
 }
 
 type UserEdge {
@@ -75,11 +569,14 @@ enum UserOrderByInput {
   id_DESC
   name_ASC
   name_DESC
+  profileImageUrl_ASC
+  profileImageUrl_DESC
 }
 
 type UserPreviousValues {
   id: ID!
   name: String!
+  profileImageUrl: String
 }
 
 type UserSubscriptionPayload {
@@ -100,12 +597,61 @@ input UserSubscriptionWhereInput {
   NOT: [UserSubscriptionWhereInput!]
 }
 
+input UserUpdateDataInput {
+  name: String
+  profileImageUrl: String
+  party: PartyUpdateOneWithoutMemberInput
+}
+
 input UserUpdateInput {
   name: String
+  profileImageUrl: String
+  party: PartyUpdateOneWithoutMemberInput
 }
 
 input UserUpdateManyMutationInput {
   name: String
+  profileImageUrl: String
+}
+
+input UserUpdateOneInput {
+  create: UserCreateInput
+  update: UserUpdateDataInput
+  upsert: UserUpsertNestedInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: UserWhereUniqueInput
+}
+
+input UserUpdateOneRequiredInput {
+  create: UserCreateInput
+  update: UserUpdateDataInput
+  upsert: UserUpsertNestedInput
+  connect: UserWhereUniqueInput
+}
+
+input UserUpdateOneWithoutPartyInput {
+  create: UserCreateWithoutPartyInput
+  update: UserUpdateWithoutPartyDataInput
+  upsert: UserUpsertWithoutPartyInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: UserWhereUniqueInput
+}
+
+input UserUpdateWithoutPartyDataInput {
+  name: String
+  profileImageUrl: String
+}
+
+input UserUpsertNestedInput {
+  update: UserUpdateDataInput!
+  create: UserCreateInput!
+}
+
+input UserUpsertWithoutPartyInput {
+  update: UserUpdateWithoutPartyDataInput!
+  create: UserCreateWithoutPartyInput!
 }
 
 input UserWhereInput {
@@ -137,6 +683,21 @@ input UserWhereInput {
   name_not_starts_with: String
   name_ends_with: String
   name_not_ends_with: String
+  profileImageUrl: String
+  profileImageUrl_not: String
+  profileImageUrl_in: [String!]
+  profileImageUrl_not_in: [String!]
+  profileImageUrl_lt: String
+  profileImageUrl_lte: String
+  profileImageUrl_gt: String
+  profileImageUrl_gte: String
+  profileImageUrl_contains: String
+  profileImageUrl_not_contains: String
+  profileImageUrl_starts_with: String
+  profileImageUrl_not_starts_with: String
+  profileImageUrl_ends_with: String
+  profileImageUrl_not_ends_with: String
+  party: PartyWhereInput
   AND: [UserWhereInput!]
   OR: [UserWhereInput!]
   NOT: [UserWhereInput!]

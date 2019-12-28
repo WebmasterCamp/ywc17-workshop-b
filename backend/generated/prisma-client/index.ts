@@ -16,6 +16,9 @@ export type AtLeastOne<T, U = { [K in keyof T]: Pick<T, K> }> = Partial<T> &
 export type Maybe<T> = T | undefined | null;
 
 export interface Exists {
+  chat: (where?: ChatWhereInput) => Promise<boolean>;
+  party: (where?: PartyWhereInput) => Promise<boolean>;
+  promotion: (where?: PromotionWhereInput) => Promise<boolean>;
   user: (where?: UserWhereInput) => Promise<boolean>;
 }
 
@@ -38,6 +41,63 @@ export interface Prisma {
    * Queries
    */
 
+  chat: (where: ChatWhereUniqueInput) => ChatNullablePromise;
+  chats: (args?: {
+    where?: ChatWhereInput;
+    orderBy?: ChatOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<Chat>;
+  chatsConnection: (args?: {
+    where?: ChatWhereInput;
+    orderBy?: ChatOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => ChatConnectionPromise;
+  party: (where: PartyWhereUniqueInput) => PartyNullablePromise;
+  parties: (args?: {
+    where?: PartyWhereInput;
+    orderBy?: PartyOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<Party>;
+  partiesConnection: (args?: {
+    where?: PartyWhereInput;
+    orderBy?: PartyOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => PartyConnectionPromise;
+  promotion: (where: PromotionWhereUniqueInput) => PromotionNullablePromise;
+  promotions: (args?: {
+    where?: PromotionWhereInput;
+    orderBy?: PromotionOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<Promotion>;
+  promotionsConnection: (args?: {
+    where?: PromotionWhereInput;
+    orderBy?: PromotionOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => PromotionConnectionPromise;
   user: (where: UserWhereUniqueInput) => UserNullablePromise;
   users: (args?: {
     where?: UserWhereInput;
@@ -63,6 +123,50 @@ export interface Prisma {
    * Mutations
    */
 
+  createChat: (data: ChatCreateInput) => ChatPromise;
+  updateChat: (args: {
+    data: ChatUpdateInput;
+    where: ChatWhereUniqueInput;
+  }) => ChatPromise;
+  updateManyChats: (args: {
+    data: ChatUpdateManyMutationInput;
+    where?: ChatWhereInput;
+  }) => BatchPayloadPromise;
+  upsertChat: (args: {
+    where: ChatWhereUniqueInput;
+    create: ChatCreateInput;
+    update: ChatUpdateInput;
+  }) => ChatPromise;
+  deleteChat: (where: ChatWhereUniqueInput) => ChatPromise;
+  deleteManyChats: (where?: ChatWhereInput) => BatchPayloadPromise;
+  createParty: (data: PartyCreateInput) => PartyPromise;
+  updateParty: (args: {
+    data: PartyUpdateInput;
+    where: PartyWhereUniqueInput;
+  }) => PartyPromise;
+  upsertParty: (args: {
+    where: PartyWhereUniqueInput;
+    create: PartyCreateInput;
+    update: PartyUpdateInput;
+  }) => PartyPromise;
+  deleteParty: (where: PartyWhereUniqueInput) => PartyPromise;
+  deleteManyParties: (where?: PartyWhereInput) => BatchPayloadPromise;
+  createPromotion: (data: PromotionCreateInput) => PromotionPromise;
+  updatePromotion: (args: {
+    data: PromotionUpdateInput;
+    where: PromotionWhereUniqueInput;
+  }) => PromotionPromise;
+  updateManyPromotions: (args: {
+    data: PromotionUpdateManyMutationInput;
+    where?: PromotionWhereInput;
+  }) => BatchPayloadPromise;
+  upsertPromotion: (args: {
+    where: PromotionWhereUniqueInput;
+    create: PromotionCreateInput;
+    update: PromotionUpdateInput;
+  }) => PromotionPromise;
+  deletePromotion: (where: PromotionWhereUniqueInput) => PromotionPromise;
+  deleteManyPromotions: (where?: PromotionWhereInput) => BatchPayloadPromise;
   createUser: (data: UserCreateInput) => UserPromise;
   updateUser: (args: {
     data: UserUpdateInput;
@@ -88,6 +192,15 @@ export interface Prisma {
 }
 
 export interface Subscription {
+  chat: (
+    where?: ChatSubscriptionWhereInput
+  ) => ChatSubscriptionPayloadSubscription;
+  party: (
+    where?: PartySubscriptionWhereInput
+  ) => PartySubscriptionPayloadSubscription;
+  promotion: (
+    where?: PromotionSubscriptionWhereInput
+  ) => PromotionSubscriptionPayloadSubscription;
   user: (
     where?: UserSubscriptionWhereInput
   ) => UserSubscriptionPayloadSubscription;
@@ -101,13 +214,72 @@ export interface ClientConstructor<T> {
  * Types
  */
 
-export type UserOrderByInput = "id_ASC" | "id_DESC" | "name_ASC" | "name_DESC";
+export type ChatOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "message_ASC"
+  | "message_DESC";
+
+export type PartyOrderByInput = "id_ASC" | "id_DESC";
+
+export type PromotionOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "coverImageUrl_ASC"
+  | "coverImageUrl_DESC"
+  | "title_ASC"
+  | "title_DESC"
+  | "description_ASC"
+  | "description_DESC";
+
+export type UserOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "name_ASC"
+  | "name_DESC"
+  | "profileImageUrl_ASC"
+  | "profileImageUrl_DESC";
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
-export type UserWhereUniqueInput = AtLeastOne<{
+export type ChatWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
+
+export interface ChatWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  owner?: Maybe<UserWhereInput>;
+  message?: Maybe<String>;
+  message_not?: Maybe<String>;
+  message_in?: Maybe<String[] | String>;
+  message_not_in?: Maybe<String[] | String>;
+  message_lt?: Maybe<String>;
+  message_lte?: Maybe<String>;
+  message_gt?: Maybe<String>;
+  message_gte?: Maybe<String>;
+  message_contains?: Maybe<String>;
+  message_not_contains?: Maybe<String>;
+  message_starts_with?: Maybe<String>;
+  message_not_starts_with?: Maybe<String>;
+  message_ends_with?: Maybe<String>;
+  message_not_ends_with?: Maybe<String>;
+  AND?: Maybe<ChatWhereInput[] | ChatWhereInput>;
+  OR?: Maybe<ChatWhereInput[] | ChatWhereInput>;
+  NOT?: Maybe<ChatWhereInput[] | ChatWhereInput>;
+}
 
 export interface UserWhereInput {
   id?: Maybe<ID_Input>;
@@ -138,22 +310,403 @@ export interface UserWhereInput {
   name_not_starts_with?: Maybe<String>;
   name_ends_with?: Maybe<String>;
   name_not_ends_with?: Maybe<String>;
+  profileImageUrl?: Maybe<String>;
+  profileImageUrl_not?: Maybe<String>;
+  profileImageUrl_in?: Maybe<String[] | String>;
+  profileImageUrl_not_in?: Maybe<String[] | String>;
+  profileImageUrl_lt?: Maybe<String>;
+  profileImageUrl_lte?: Maybe<String>;
+  profileImageUrl_gt?: Maybe<String>;
+  profileImageUrl_gte?: Maybe<String>;
+  profileImageUrl_contains?: Maybe<String>;
+  profileImageUrl_not_contains?: Maybe<String>;
+  profileImageUrl_starts_with?: Maybe<String>;
+  profileImageUrl_not_starts_with?: Maybe<String>;
+  profileImageUrl_ends_with?: Maybe<String>;
+  profileImageUrl_not_ends_with?: Maybe<String>;
+  party?: Maybe<PartyWhereInput>;
   AND?: Maybe<UserWhereInput[] | UserWhereInput>;
   OR?: Maybe<UserWhereInput[] | UserWhereInput>;
   NOT?: Maybe<UserWhereInput[] | UserWhereInput>;
 }
 
+export interface PartyWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  member?: Maybe<UserWhereInput>;
+  messages_every?: Maybe<ChatWhereInput>;
+  messages_some?: Maybe<ChatWhereInput>;
+  messages_none?: Maybe<ChatWhereInput>;
+  confirmedMember?: Maybe<UserWhereInput>;
+  AND?: Maybe<PartyWhereInput[] | PartyWhereInput>;
+  OR?: Maybe<PartyWhereInput[] | PartyWhereInput>;
+  NOT?: Maybe<PartyWhereInput[] | PartyWhereInput>;
+}
+
+export type PartyWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export type PromotionWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export interface PromotionWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  coverImageUrl?: Maybe<String>;
+  coverImageUrl_not?: Maybe<String>;
+  coverImageUrl_in?: Maybe<String[] | String>;
+  coverImageUrl_not_in?: Maybe<String[] | String>;
+  coverImageUrl_lt?: Maybe<String>;
+  coverImageUrl_lte?: Maybe<String>;
+  coverImageUrl_gt?: Maybe<String>;
+  coverImageUrl_gte?: Maybe<String>;
+  coverImageUrl_contains?: Maybe<String>;
+  coverImageUrl_not_contains?: Maybe<String>;
+  coverImageUrl_starts_with?: Maybe<String>;
+  coverImageUrl_not_starts_with?: Maybe<String>;
+  coverImageUrl_ends_with?: Maybe<String>;
+  coverImageUrl_not_ends_with?: Maybe<String>;
+  title?: Maybe<String>;
+  title_not?: Maybe<String>;
+  title_in?: Maybe<String[] | String>;
+  title_not_in?: Maybe<String[] | String>;
+  title_lt?: Maybe<String>;
+  title_lte?: Maybe<String>;
+  title_gt?: Maybe<String>;
+  title_gte?: Maybe<String>;
+  title_contains?: Maybe<String>;
+  title_not_contains?: Maybe<String>;
+  title_starts_with?: Maybe<String>;
+  title_not_starts_with?: Maybe<String>;
+  title_ends_with?: Maybe<String>;
+  title_not_ends_with?: Maybe<String>;
+  description?: Maybe<String>;
+  description_not?: Maybe<String>;
+  description_in?: Maybe<String[] | String>;
+  description_not_in?: Maybe<String[] | String>;
+  description_lt?: Maybe<String>;
+  description_lte?: Maybe<String>;
+  description_gt?: Maybe<String>;
+  description_gte?: Maybe<String>;
+  description_contains?: Maybe<String>;
+  description_not_contains?: Maybe<String>;
+  description_starts_with?: Maybe<String>;
+  description_not_starts_with?: Maybe<String>;
+  description_ends_with?: Maybe<String>;
+  description_not_ends_with?: Maybe<String>;
+  AND?: Maybe<PromotionWhereInput[] | PromotionWhereInput>;
+  OR?: Maybe<PromotionWhereInput[] | PromotionWhereInput>;
+  NOT?: Maybe<PromotionWhereInput[] | PromotionWhereInput>;
+}
+
+export type UserWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export interface ChatCreateInput {
+  id?: Maybe<ID_Input>;
+  owner: UserCreateOneInput;
+  message: String;
+}
+
+export interface UserCreateOneInput {
+  create?: Maybe<UserCreateInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
 export interface UserCreateInput {
   id?: Maybe<ID_Input>;
   name: String;
+  profileImageUrl?: Maybe<String>;
+  party?: Maybe<PartyCreateOneWithoutMemberInput>;
+}
+
+export interface PartyCreateOneWithoutMemberInput {
+  create?: Maybe<PartyCreateWithoutMemberInput>;
+  connect?: Maybe<PartyWhereUniqueInput>;
+}
+
+export interface PartyCreateWithoutMemberInput {
+  id?: Maybe<ID_Input>;
+  messages?: Maybe<ChatCreateManyInput>;
+  confirmedMember?: Maybe<UserCreateOneInput>;
+}
+
+export interface ChatCreateManyInput {
+  create?: Maybe<ChatCreateInput[] | ChatCreateInput>;
+  connect?: Maybe<ChatWhereUniqueInput[] | ChatWhereUniqueInput>;
+}
+
+export interface ChatUpdateInput {
+  owner?: Maybe<UserUpdateOneRequiredInput>;
+  message?: Maybe<String>;
+}
+
+export interface UserUpdateOneRequiredInput {
+  create?: Maybe<UserCreateInput>;
+  update?: Maybe<UserUpdateDataInput>;
+  upsert?: Maybe<UserUpsertNestedInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface UserUpdateDataInput {
+  name?: Maybe<String>;
+  profileImageUrl?: Maybe<String>;
+  party?: Maybe<PartyUpdateOneWithoutMemberInput>;
+}
+
+export interface PartyUpdateOneWithoutMemberInput {
+  create?: Maybe<PartyCreateWithoutMemberInput>;
+  update?: Maybe<PartyUpdateWithoutMemberDataInput>;
+  upsert?: Maybe<PartyUpsertWithoutMemberInput>;
+  delete?: Maybe<Boolean>;
+  disconnect?: Maybe<Boolean>;
+  connect?: Maybe<PartyWhereUniqueInput>;
+}
+
+export interface PartyUpdateWithoutMemberDataInput {
+  messages?: Maybe<ChatUpdateManyInput>;
+  confirmedMember?: Maybe<UserUpdateOneInput>;
+}
+
+export interface ChatUpdateManyInput {
+  create?: Maybe<ChatCreateInput[] | ChatCreateInput>;
+  update?: Maybe<
+    | ChatUpdateWithWhereUniqueNestedInput[]
+    | ChatUpdateWithWhereUniqueNestedInput
+  >;
+  upsert?: Maybe<
+    | ChatUpsertWithWhereUniqueNestedInput[]
+    | ChatUpsertWithWhereUniqueNestedInput
+  >;
+  delete?: Maybe<ChatWhereUniqueInput[] | ChatWhereUniqueInput>;
+  connect?: Maybe<ChatWhereUniqueInput[] | ChatWhereUniqueInput>;
+  set?: Maybe<ChatWhereUniqueInput[] | ChatWhereUniqueInput>;
+  disconnect?: Maybe<ChatWhereUniqueInput[] | ChatWhereUniqueInput>;
+  deleteMany?: Maybe<ChatScalarWhereInput[] | ChatScalarWhereInput>;
+  updateMany?: Maybe<
+    ChatUpdateManyWithWhereNestedInput[] | ChatUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface ChatUpdateWithWhereUniqueNestedInput {
+  where: ChatWhereUniqueInput;
+  data: ChatUpdateDataInput;
+}
+
+export interface ChatUpdateDataInput {
+  owner?: Maybe<UserUpdateOneRequiredInput>;
+  message?: Maybe<String>;
+}
+
+export interface ChatUpsertWithWhereUniqueNestedInput {
+  where: ChatWhereUniqueInput;
+  update: ChatUpdateDataInput;
+  create: ChatCreateInput;
+}
+
+export interface ChatScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  message?: Maybe<String>;
+  message_not?: Maybe<String>;
+  message_in?: Maybe<String[] | String>;
+  message_not_in?: Maybe<String[] | String>;
+  message_lt?: Maybe<String>;
+  message_lte?: Maybe<String>;
+  message_gt?: Maybe<String>;
+  message_gte?: Maybe<String>;
+  message_contains?: Maybe<String>;
+  message_not_contains?: Maybe<String>;
+  message_starts_with?: Maybe<String>;
+  message_not_starts_with?: Maybe<String>;
+  message_ends_with?: Maybe<String>;
+  message_not_ends_with?: Maybe<String>;
+  AND?: Maybe<ChatScalarWhereInput[] | ChatScalarWhereInput>;
+  OR?: Maybe<ChatScalarWhereInput[] | ChatScalarWhereInput>;
+  NOT?: Maybe<ChatScalarWhereInput[] | ChatScalarWhereInput>;
+}
+
+export interface ChatUpdateManyWithWhereNestedInput {
+  where: ChatScalarWhereInput;
+  data: ChatUpdateManyDataInput;
+}
+
+export interface ChatUpdateManyDataInput {
+  message?: Maybe<String>;
+}
+
+export interface UserUpdateOneInput {
+  create?: Maybe<UserCreateInput>;
+  update?: Maybe<UserUpdateDataInput>;
+  upsert?: Maybe<UserUpsertNestedInput>;
+  delete?: Maybe<Boolean>;
+  disconnect?: Maybe<Boolean>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface UserUpsertNestedInput {
+  update: UserUpdateDataInput;
+  create: UserCreateInput;
+}
+
+export interface PartyUpsertWithoutMemberInput {
+  update: PartyUpdateWithoutMemberDataInput;
+  create: PartyCreateWithoutMemberInput;
+}
+
+export interface ChatUpdateManyMutationInput {
+  message?: Maybe<String>;
+}
+
+export interface PartyCreateInput {
+  id?: Maybe<ID_Input>;
+  member?: Maybe<UserCreateOneWithoutPartyInput>;
+  messages?: Maybe<ChatCreateManyInput>;
+  confirmedMember?: Maybe<UserCreateOneInput>;
+}
+
+export interface UserCreateOneWithoutPartyInput {
+  create?: Maybe<UserCreateWithoutPartyInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface UserCreateWithoutPartyInput {
+  id?: Maybe<ID_Input>;
+  name: String;
+  profileImageUrl?: Maybe<String>;
+}
+
+export interface PartyUpdateInput {
+  member?: Maybe<UserUpdateOneWithoutPartyInput>;
+  messages?: Maybe<ChatUpdateManyInput>;
+  confirmedMember?: Maybe<UserUpdateOneInput>;
+}
+
+export interface UserUpdateOneWithoutPartyInput {
+  create?: Maybe<UserCreateWithoutPartyInput>;
+  update?: Maybe<UserUpdateWithoutPartyDataInput>;
+  upsert?: Maybe<UserUpsertWithoutPartyInput>;
+  delete?: Maybe<Boolean>;
+  disconnect?: Maybe<Boolean>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface UserUpdateWithoutPartyDataInput {
+  name?: Maybe<String>;
+  profileImageUrl?: Maybe<String>;
+}
+
+export interface UserUpsertWithoutPartyInput {
+  update: UserUpdateWithoutPartyDataInput;
+  create: UserCreateWithoutPartyInput;
+}
+
+export interface PromotionCreateInput {
+  id?: Maybe<ID_Input>;
+  coverImageUrl?: Maybe<String>;
+  title: String;
+  description: String;
+}
+
+export interface PromotionUpdateInput {
+  coverImageUrl?: Maybe<String>;
+  title?: Maybe<String>;
+  description?: Maybe<String>;
+}
+
+export interface PromotionUpdateManyMutationInput {
+  coverImageUrl?: Maybe<String>;
+  title?: Maybe<String>;
+  description?: Maybe<String>;
 }
 
 export interface UserUpdateInput {
   name?: Maybe<String>;
+  profileImageUrl?: Maybe<String>;
+  party?: Maybe<PartyUpdateOneWithoutMemberInput>;
 }
 
 export interface UserUpdateManyMutationInput {
   name?: Maybe<String>;
+  profileImageUrl?: Maybe<String>;
+}
+
+export interface ChatSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<ChatWhereInput>;
+  AND?: Maybe<ChatSubscriptionWhereInput[] | ChatSubscriptionWhereInput>;
+  OR?: Maybe<ChatSubscriptionWhereInput[] | ChatSubscriptionWhereInput>;
+  NOT?: Maybe<ChatSubscriptionWhereInput[] | ChatSubscriptionWhereInput>;
+}
+
+export interface PartySubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<PartyWhereInput>;
+  AND?: Maybe<PartySubscriptionWhereInput[] | PartySubscriptionWhereInput>;
+  OR?: Maybe<PartySubscriptionWhereInput[] | PartySubscriptionWhereInput>;
+  NOT?: Maybe<PartySubscriptionWhereInput[] | PartySubscriptionWhereInput>;
+}
+
+export interface PromotionSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<PromotionWhereInput>;
+  AND?: Maybe<
+    PromotionSubscriptionWhereInput[] | PromotionSubscriptionWhereInput
+  >;
+  OR?: Maybe<
+    PromotionSubscriptionWhereInput[] | PromotionSubscriptionWhereInput
+  >;
+  NOT?: Maybe<
+    PromotionSubscriptionWhereInput[] | PromotionSubscriptionWhereInput
+  >;
 }
 
 export interface UserSubscriptionWhereInput {
@@ -171,14 +724,44 @@ export interface NodeNode {
   id: ID_Output;
 }
 
+export interface Chat {
+  id: ID_Output;
+  message: String;
+}
+
+export interface ChatPromise extends Promise<Chat>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  owner: <T = UserPromise>() => T;
+  message: () => Promise<String>;
+}
+
+export interface ChatSubscription
+  extends Promise<AsyncIterator<Chat>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  owner: <T = UserSubscription>() => T;
+  message: () => Promise<AsyncIterator<String>>;
+}
+
+export interface ChatNullablePromise
+  extends Promise<Chat | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  owner: <T = UserPromise>() => T;
+  message: () => Promise<String>;
+}
+
 export interface User {
   id: ID_Output;
   name: String;
+  profileImageUrl?: String;
 }
 
 export interface UserPromise extends Promise<User>, Fragmentable {
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
+  profileImageUrl: () => Promise<String>;
+  party: <T = PartyPromise>() => T;
 }
 
 export interface UserSubscription
@@ -186,6 +769,8 @@ export interface UserSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   name: () => Promise<AsyncIterator<String>>;
+  profileImageUrl: () => Promise<AsyncIterator<String>>;
+  party: <T = PartySubscription>() => T;
 }
 
 export interface UserNullablePromise
@@ -193,27 +778,82 @@ export interface UserNullablePromise
     Fragmentable {
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
+  profileImageUrl: () => Promise<String>;
+  party: <T = PartyPromise>() => T;
 }
 
-export interface UserConnection {
+export interface Party {
+  id: ID_Output;
+}
+
+export interface PartyPromise extends Promise<Party>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  member: <T = UserPromise>() => T;
+  messages: <T = FragmentableArray<Chat>>(args?: {
+    where?: ChatWhereInput;
+    orderBy?: ChatOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  confirmedMember: <T = UserPromise>() => T;
+}
+
+export interface PartySubscription
+  extends Promise<AsyncIterator<Party>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  member: <T = UserSubscription>() => T;
+  messages: <T = Promise<AsyncIterator<ChatSubscription>>>(args?: {
+    where?: ChatWhereInput;
+    orderBy?: ChatOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  confirmedMember: <T = UserSubscription>() => T;
+}
+
+export interface PartyNullablePromise
+  extends Promise<Party | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  member: <T = UserPromise>() => T;
+  messages: <T = FragmentableArray<Chat>>(args?: {
+    where?: ChatWhereInput;
+    orderBy?: ChatOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  confirmedMember: <T = UserPromise>() => T;
+}
+
+export interface ChatConnection {
   pageInfo: PageInfo;
-  edges: UserEdge[];
+  edges: ChatEdge[];
 }
 
-export interface UserConnectionPromise
-  extends Promise<UserConnection>,
+export interface ChatConnectionPromise
+  extends Promise<ChatConnection>,
     Fragmentable {
   pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<UserEdge>>() => T;
-  aggregate: <T = AggregateUserPromise>() => T;
+  edges: <T = FragmentableArray<ChatEdge>>() => T;
+  aggregate: <T = AggregateChatPromise>() => T;
 }
 
-export interface UserConnectionSubscription
-  extends Promise<AsyncIterator<UserConnection>>,
+export interface ChatConnectionSubscription
+  extends Promise<AsyncIterator<ChatConnection>>,
     Fragmentable {
   pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<UserEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateUserSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<ChatEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateChatSubscription>() => T;
 }
 
 export interface PageInfo {
@@ -237,6 +877,202 @@ export interface PageInfoSubscription
   hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
   startCursor: () => Promise<AsyncIterator<String>>;
   endCursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface ChatEdge {
+  node: Chat;
+  cursor: String;
+}
+
+export interface ChatEdgePromise extends Promise<ChatEdge>, Fragmentable {
+  node: <T = ChatPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface ChatEdgeSubscription
+  extends Promise<AsyncIterator<ChatEdge>>,
+    Fragmentable {
+  node: <T = ChatSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateChat {
+  count: Int;
+}
+
+export interface AggregateChatPromise
+  extends Promise<AggregateChat>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateChatSubscription
+  extends Promise<AsyncIterator<AggregateChat>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface PartyConnection {
+  pageInfo: PageInfo;
+  edges: PartyEdge[];
+}
+
+export interface PartyConnectionPromise
+  extends Promise<PartyConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<PartyEdge>>() => T;
+  aggregate: <T = AggregatePartyPromise>() => T;
+}
+
+export interface PartyConnectionSubscription
+  extends Promise<AsyncIterator<PartyConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<PartyEdgeSubscription>>>() => T;
+  aggregate: <T = AggregatePartySubscription>() => T;
+}
+
+export interface PartyEdge {
+  node: Party;
+  cursor: String;
+}
+
+export interface PartyEdgePromise extends Promise<PartyEdge>, Fragmentable {
+  node: <T = PartyPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface PartyEdgeSubscription
+  extends Promise<AsyncIterator<PartyEdge>>,
+    Fragmentable {
+  node: <T = PartySubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateParty {
+  count: Int;
+}
+
+export interface AggregatePartyPromise
+  extends Promise<AggregateParty>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregatePartySubscription
+  extends Promise<AsyncIterator<AggregateParty>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface Promotion {
+  id: ID_Output;
+  coverImageUrl?: String;
+  title: String;
+  description: String;
+}
+
+export interface PromotionPromise extends Promise<Promotion>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  coverImageUrl: () => Promise<String>;
+  title: () => Promise<String>;
+  description: () => Promise<String>;
+}
+
+export interface PromotionSubscription
+  extends Promise<AsyncIterator<Promotion>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  coverImageUrl: () => Promise<AsyncIterator<String>>;
+  title: () => Promise<AsyncIterator<String>>;
+  description: () => Promise<AsyncIterator<String>>;
+}
+
+export interface PromotionNullablePromise
+  extends Promise<Promotion | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  coverImageUrl: () => Promise<String>;
+  title: () => Promise<String>;
+  description: () => Promise<String>;
+}
+
+export interface PromotionConnection {
+  pageInfo: PageInfo;
+  edges: PromotionEdge[];
+}
+
+export interface PromotionConnectionPromise
+  extends Promise<PromotionConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<PromotionEdge>>() => T;
+  aggregate: <T = AggregatePromotionPromise>() => T;
+}
+
+export interface PromotionConnectionSubscription
+  extends Promise<AsyncIterator<PromotionConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<PromotionEdgeSubscription>>>() => T;
+  aggregate: <T = AggregatePromotionSubscription>() => T;
+}
+
+export interface PromotionEdge {
+  node: Promotion;
+  cursor: String;
+}
+
+export interface PromotionEdgePromise
+  extends Promise<PromotionEdge>,
+    Fragmentable {
+  node: <T = PromotionPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface PromotionEdgeSubscription
+  extends Promise<AsyncIterator<PromotionEdge>>,
+    Fragmentable {
+  node: <T = PromotionSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregatePromotion {
+  count: Int;
+}
+
+export interface AggregatePromotionPromise
+  extends Promise<AggregatePromotion>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregatePromotionSubscription
+  extends Promise<AsyncIterator<AggregatePromotion>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface UserConnection {
+  pageInfo: PageInfo;
+  edges: UserEdge[];
+}
+
+export interface UserConnectionPromise
+  extends Promise<UserConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<UserEdge>>() => T;
+  aggregate: <T = AggregateUserPromise>() => T;
+}
+
+export interface UserConnectionSubscription
+  extends Promise<AsyncIterator<UserConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<UserEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateUserSubscription>() => T;
 }
 
 export interface UserEdge {
@@ -288,6 +1124,141 @@ export interface BatchPayloadSubscription
   count: () => Promise<AsyncIterator<Long>>;
 }
 
+export interface ChatSubscriptionPayload {
+  mutation: MutationType;
+  node: Chat;
+  updatedFields: String[];
+  previousValues: ChatPreviousValues;
+}
+
+export interface ChatSubscriptionPayloadPromise
+  extends Promise<ChatSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = ChatPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = ChatPreviousValuesPromise>() => T;
+}
+
+export interface ChatSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<ChatSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = ChatSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = ChatPreviousValuesSubscription>() => T;
+}
+
+export interface ChatPreviousValues {
+  id: ID_Output;
+  message: String;
+}
+
+export interface ChatPreviousValuesPromise
+  extends Promise<ChatPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  message: () => Promise<String>;
+}
+
+export interface ChatPreviousValuesSubscription
+  extends Promise<AsyncIterator<ChatPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  message: () => Promise<AsyncIterator<String>>;
+}
+
+export interface PartySubscriptionPayload {
+  mutation: MutationType;
+  node: Party;
+  updatedFields: String[];
+  previousValues: PartyPreviousValues;
+}
+
+export interface PartySubscriptionPayloadPromise
+  extends Promise<PartySubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = PartyPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = PartyPreviousValuesPromise>() => T;
+}
+
+export interface PartySubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<PartySubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = PartySubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = PartyPreviousValuesSubscription>() => T;
+}
+
+export interface PartyPreviousValues {
+  id: ID_Output;
+}
+
+export interface PartyPreviousValuesPromise
+  extends Promise<PartyPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+}
+
+export interface PartyPreviousValuesSubscription
+  extends Promise<AsyncIterator<PartyPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+}
+
+export interface PromotionSubscriptionPayload {
+  mutation: MutationType;
+  node: Promotion;
+  updatedFields: String[];
+  previousValues: PromotionPreviousValues;
+}
+
+export interface PromotionSubscriptionPayloadPromise
+  extends Promise<PromotionSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = PromotionPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = PromotionPreviousValuesPromise>() => T;
+}
+
+export interface PromotionSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<PromotionSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = PromotionSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = PromotionPreviousValuesSubscription>() => T;
+}
+
+export interface PromotionPreviousValues {
+  id: ID_Output;
+  coverImageUrl?: String;
+  title: String;
+  description: String;
+}
+
+export interface PromotionPreviousValuesPromise
+  extends Promise<PromotionPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  coverImageUrl: () => Promise<String>;
+  title: () => Promise<String>;
+  description: () => Promise<String>;
+}
+
+export interface PromotionPreviousValuesSubscription
+  extends Promise<AsyncIterator<PromotionPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  coverImageUrl: () => Promise<AsyncIterator<String>>;
+  title: () => Promise<AsyncIterator<String>>;
+  description: () => Promise<AsyncIterator<String>>;
+}
+
 export interface UserSubscriptionPayload {
   mutation: MutationType;
   node: User;
@@ -316,6 +1287,7 @@ export interface UserSubscriptionPayloadSubscription
 export interface UserPreviousValues {
   id: ID_Output;
   name: String;
+  profileImageUrl?: String;
 }
 
 export interface UserPreviousValuesPromise
@@ -323,6 +1295,7 @@ export interface UserPreviousValuesPromise
     Fragmentable {
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
+  profileImageUrl: () => Promise<String>;
 }
 
 export interface UserPreviousValuesSubscription
@@ -330,6 +1303,7 @@ export interface UserPreviousValuesSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   name: () => Promise<AsyncIterator<String>>;
+  profileImageUrl: () => Promise<AsyncIterator<String>>;
 }
 
 /*
@@ -362,6 +1336,18 @@ export type Long = string;
 export const models: Model[] = [
   {
     name: "User",
+    embedded: false
+  },
+  {
+    name: "Promotion",
+    embedded: false
+  },
+  {
+    name: "Party",
+    embedded: false
+  },
+  {
+    name: "Chat",
     embedded: false
   }
 ];
