@@ -1,8 +1,10 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-import ApolloClient from 'apollo-boost';
-import { ApolloProvider } from '@apollo/react-hooks';
+import React from "react";
+import HomePage from "./pages/home";
+import PromotionView from "./pages/promotion";
+import ApolloClient from "apollo-boost";
+import { ApolloProvider } from "@apollo/react-hooks";
+import "antd/dist/antd.css";
+import "./App.css";
 
 import {
   BrowserRouter as Router,
@@ -12,40 +14,36 @@ import {
   useRouteMatch,
   useParams
 } from "react-router-dom";
-import { ApiTest } from './api';
+import { ApiTest } from "./api";
 
 const client = new ApolloClient({
-  uri: ' https://eu1.prisma.sh/peerawas-archavanuntakun-77f2e0/backend/dev',
+  uri: " https://eu1.prisma.sh/peerawas-archavanuntakun-77f2e0/backend/dev"
 });
 
 function App() {
   return (
-    
     <ApolloProvider client={client}>
       <div>"HI"</div>
-    <Router>
+      <Router>
         {/* Template */}
         <Switch>
-          <Route path="/static/">
-            {/* ... some MOCK static 0,1,2,3,4 */}
-          </Route>
-          <Route path="/promotions">
-            {/* view all promotions */}
-          </Route>
+          <Route exact path="/" component={HomePage} />
+          {/* view all promotions */}
+          <Route path="/static/">{/* ... some MOCK static 0,1,2,3,4 */}</Route>
+          {/* view all promotions */}
+          <Route path="/promotion/:id" component={PromotionView} />
           <Route path="/parties">
             {/* filter by promotions, location, etc. using URI query  */}
           </Route>
-          <Route path="/chat/:id">
-            {/* chat with party */}
-          </Route>
+          <Route path="/users/:id">{/* user*/}</Route>
+          <Route path="/chat/:id">{/* chat with party */}</Route>
           {/* some finallize route */}
 
           <Route path="/api">
-            <ApiTest/>
+            <ApiTest />
           </Route>
-          
         </Switch>
-    </Router>
+      </Router>
     </ApolloProvider>
   );
 }
