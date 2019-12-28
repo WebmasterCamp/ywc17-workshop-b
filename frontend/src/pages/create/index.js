@@ -1,6 +1,6 @@
 import React from "react";
 import { List, Input, Button, Form, Card } from "antd";
-import { useQuery, useMutation } from "@apollo/react-hooks";
+import { useQuery, useMutation, useApolloClient } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import { range, gqlReady } from "../../util";
 import Meta from "antd/lib/card/Meta";
@@ -24,6 +24,7 @@ const GET_PROMOTION = gql`
 `;
 
 const CreatePartyPage = ({ form: { getFieldDecorator, validateFields } }) => {
+  const client = useApolloClient();
   const { promoid: id } = useParams();
 
   const result = useQuery(GET_PROMOTION, {
@@ -40,14 +41,32 @@ const CreatePartyPage = ({ form: { getFieldDecorator, validateFields } }) => {
 
   const onCreate = e => {
     e.preventDefault();
-    validateFields((err, values) => {
+
+    validateFields(async (err, values) => {
       // values example `{name: "abcd", usernamme: "intaniger", tel: "0989417565", description: "SSO"}`
 
-      
+      await client.mutate({
+        mutation: gql`
+          mutation {
+            createParty(
+              data: {
+                title: "หิวชาบู"
+                member: { connect: { id: "ck4p2cery3ato09939culz1p1" } }
+              }
+            ) {
+              id
+              member {
+                id
+                name
+              }
+            }
+          }
+        `
+      });
       if (!err) {
         console.log("Received values of form: ", values);
       }
-      window.location.href = "/waitingParty"
+      window.location.href = "/waitingParty";
     });
   };
   console.log(coverImageUrl);
@@ -91,7 +110,6 @@ const CreatePartyPage = ({ form: { getFieldDecorator, validateFields } }) => {
                 placeholder="รายละเอียด (เช่น ความต้องการ เวลา สถานที่)"
               />
             )}
-            
           </Form.Item>
           <Form.Item>
             <Button type="primary" htmlType="submit">
