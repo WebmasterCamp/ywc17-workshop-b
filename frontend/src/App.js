@@ -28,6 +28,7 @@ import { ChatRoom } from "./pages/chat";
 import { Layout, Row } from "antd";
 import { Menu } from "./pages/menu";
 import { ReviewPage } from "./pages/review";
+import {Tracking} from "./pages/tracking"
 
 const { Header } = Layout;
 
@@ -129,7 +130,7 @@ function App() {
             </Route>
             <Route path="/review" component={ReviewPage} />
             {/* some finallize route */}
-
+            <Route path="/tracking/:id" component={Tracking} />
             <Route path="/api">
               <ApiTest />
             </Route>

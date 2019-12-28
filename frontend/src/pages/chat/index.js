@@ -55,7 +55,7 @@ export const ChatRoom = () => {
     <img
     src="/chat.png"
       style={{
-        backgroundImage: "url('/chat.png')"
+        width: "100%"
       }}
     onClick={
       ()=> {
