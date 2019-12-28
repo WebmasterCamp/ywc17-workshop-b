@@ -7,7 +7,7 @@ import Meta from "antd/lib/card/Meta";
 import { useParams } from "react-router-dom";
 
 const GET_PROMOTION = gql`
-  query getAllPromotions($id: String!) {
+  query getAllPromotions($id: ID!) {
     promotion(where: { id: $id }) {
       id
       title
