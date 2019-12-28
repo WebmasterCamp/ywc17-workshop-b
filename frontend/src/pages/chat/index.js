@@ -57,6 +57,12 @@ export const ChatRoom = () => {
       style={{
         backgroundImage: "url('/chat.png')"
       }}
+    onClick={
+      ()=> {
+          window.location.href="/tracking/123"
+      }
+      }
+    
     />
   );
 };
