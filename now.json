@@ -2,7 +2,22 @@
   "name": "ywc17-workshop-b",
   "alias": ["workshop-b.ywc17.ywc.in.th"],
   "regions": ["all"],
+  "version": 2,
+  "public": false,
   "builds": [
-    { "src": "**/*", "use": "@now/static" }
+    {
+      "src": "./frontend/package.json",
+      "use": "@now/static-build",
+      "config": { "distDir": "build" }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "frontend/$1",
+      "continue": true
+    },
+    { "handle": "filesystem" },
+    { "src": ".*", "dest": "frontend/index.html" }
   ]
 }

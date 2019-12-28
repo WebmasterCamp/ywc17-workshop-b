@@ -1,0 +1,7 @@
+#endpoint: https://eu1.prisma.sh/peerawas-archavanuntakun-77f2e0/jourPro/
+endpoint: https://eu1.prisma.sh/peerawas-archavanuntakun-77f2e0/backend/dev
+datamodel: datamodel.prisma
+
+generate:
+  - generator: typescript-client
+    output: ./generated/prisma-client/
