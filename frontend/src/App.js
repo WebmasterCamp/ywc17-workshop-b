@@ -2,24 +2,35 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  useRouteMatch,
+  useParams
+} from "react-router-dom";
+
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+        {/* Template */}
+        <Switch>
+          <Route path="/step/" component={User}>
+            {/* ... some MOCK step 0,1,2,3,4 */}
+          </Route>
+          <Route path="/promotions">
+            {/* view all promotions */}
+          </Route>
+          <Route path="/parties">
+            {/* filter by promotions, location, etc. using URI query  */}
+          </Route>
+          <Route path="/chat/:id">
+            {/* chat with party */}
+          </Route>
+          {/* some finallize route */}
+        </Switch>
+    </Router>
   );
 }
 
