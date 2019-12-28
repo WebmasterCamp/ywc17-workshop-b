@@ -7,8 +7,8 @@ import Meta from "antd/lib/card/Meta";
 import { useParams } from "react-router-dom";
 
 const GET_PROMOTION = gql`
-  query getAllPromotions {
-    promotion(where: { id: "ck4p4lu6kt9u50922ngrd7qci" }) {
+  query getAllPromotions($id: String!) {
+    promotion(where: { id: $id }) {
       id
       title
       coverImageUrl
@@ -24,8 +24,11 @@ const GET_PROMOTION = gql`
 
 const PromotionView = ({}) => {
   const { id } = useParams();
+
   // const [promotions, setPromotions] = useState(range(10).map(() => ({})));
-  const { data, loading, error } = useQuery(GET_PROMOTION);
+  const { data, loading, error } = useQuery(GET_PROMOTION, {
+    variables: { id  },
+  });
 
   // console.log(loading, data, error);
   //   if (error != undefined || data == undefined) return null;
