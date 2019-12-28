@@ -27,8 +27,10 @@ const HomePage = ({ form: { getFieldDecorator, validateFields } }) => {
   const result = useQuery(GET_ALL_PROMOTIONS);
 
   if (!gqlReady(result)) return null;
-  
-  const { data } = result;
+
+  const {
+    data: { promotions }
+  } = result;
   const onFilter = e => {
     e.preventDefault();
     validateFields((err, values) => {
@@ -52,7 +54,7 @@ const HomePage = ({ form: { getFieldDecorator, validateFields } }) => {
       </Form>
       <List
         grid={{ gutter: 16, column: 2 }}
-        dataSource={data.promotions}
+        dataSource={promotions}
         renderItem={({ id, coverImageUrl, title, description }) => (
           <List.Item>
             <Link to={`/promotion/${id}`}>
