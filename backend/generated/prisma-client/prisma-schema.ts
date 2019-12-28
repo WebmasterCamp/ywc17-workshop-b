@@ -26,6 +26,7 @@ type Chat {
   id: ID!
   owner: User!
   message: String!
+  party: Party!
 }
 
 type ChatConnection {
@@ -38,11 +39,18 @@ input ChatCreateInput {
   id: ID
   owner: UserCreateOneInput!
   message: String!
+  party: PartyCreateOneWithoutMessagesInput!
 }
 
-input ChatCreateManyInput {
-  create: [ChatCreateInput!]
+input ChatCreateManyWithoutPartyInput {
+  create: [ChatCreateWithoutPartyInput!]
   connect: [ChatWhereUniqueInput!]
+}
+
+input ChatCreateWithoutPartyInput {
+  id: ID
+  owner: UserCreateOneInput!
+  message: String!
 }
 
 type ChatEdge {
@@ -114,34 +122,30 @@ input ChatSubscriptionWhereInput {
   NOT: [ChatSubscriptionWhereInput!]
 }
 
-input ChatUpdateDataInput {
-  owner: UserUpdateOneRequiredInput
-  message: String
-}
-
 input ChatUpdateInput {
   owner: UserUpdateOneRequiredInput
   message: String
+  party: PartyUpdateOneRequiredWithoutMessagesInput
 }
 
 input ChatUpdateManyDataInput {
   message: String
 }
 
-input ChatUpdateManyInput {
-  create: [ChatCreateInput!]
-  update: [ChatUpdateWithWhereUniqueNestedInput!]
-  upsert: [ChatUpsertWithWhereUniqueNestedInput!]
+input ChatUpdateManyMutationInput {
+  message: String
+}
+
+input ChatUpdateManyWithoutPartyInput {
+  create: [ChatCreateWithoutPartyInput!]
   delete: [ChatWhereUniqueInput!]
   connect: [ChatWhereUniqueInput!]
   set: [ChatWhereUniqueInput!]
   disconnect: [ChatWhereUniqueInput!]
+  update: [ChatUpdateWithWhereUniqueWithoutPartyInput!]
+  upsert: [ChatUpsertWithWhereUniqueWithoutPartyInput!]
   deleteMany: [ChatScalarWhereInput!]
   updateMany: [ChatUpdateManyWithWhereNestedInput!]
-}
-
-input ChatUpdateManyMutationInput {
-  message: String
 }
 
 input ChatUpdateManyWithWhereNestedInput {
@@ -149,15 +153,20 @@ input ChatUpdateManyWithWhereNestedInput {
   data: ChatUpdateManyDataInput!
 }
 
-input ChatUpdateWithWhereUniqueNestedInput {
-  where: ChatWhereUniqueInput!
-  data: ChatUpdateDataInput!
+input ChatUpdateWithoutPartyDataInput {
+  owner: UserUpdateOneRequiredInput
+  message: String
 }
 
-input ChatUpsertWithWhereUniqueNestedInput {
+input ChatUpdateWithWhereUniqueWithoutPartyInput {
   where: ChatWhereUniqueInput!
-  update: ChatUpdateDataInput!
-  create: ChatCreateInput!
+  data: ChatUpdateWithoutPartyDataInput!
+}
+
+input ChatUpsertWithWhereUniqueWithoutPartyInput {
+  where: ChatWhereUniqueInput!
+  update: ChatUpdateWithoutPartyDataInput!
+  create: ChatCreateWithoutPartyInput!
 }
 
 input ChatWhereInput {
@@ -190,6 +199,7 @@ input ChatWhereInput {
   message_not_starts_with: String
   message_ends_with: String
   message_not_ends_with: String
+  party: PartyWhereInput
   AND: [ChatWhereInput!]
   OR: [ChatWhereInput!]
   NOT: [ChatWhereInput!]
@@ -260,7 +270,7 @@ type PartyConnection {
 input PartyCreateInput {
   id: ID
   member: UserCreateOneWithoutPartyInput
-  messages: ChatCreateManyInput
+  messages: ChatCreateManyWithoutPartyInput
   confirmedMember: UserCreateOneInput
 }
 
@@ -269,9 +279,20 @@ input PartyCreateOneWithoutMemberInput {
   connect: PartyWhereUniqueInput
 }
 
+input PartyCreateOneWithoutMessagesInput {
+  create: PartyCreateWithoutMessagesInput
+  connect: PartyWhereUniqueInput
+}
+
 input PartyCreateWithoutMemberInput {
   id: ID
-  messages: ChatCreateManyInput
+  messages: ChatCreateManyWithoutPartyInput
+  confirmedMember: UserCreateOneInput
+}
+
+input PartyCreateWithoutMessagesInput {
+  id: ID
+  member: UserCreateOneWithoutPartyInput
   confirmedMember: UserCreateOneInput
 }
 
@@ -309,8 +330,15 @@ input PartySubscriptionWhereInput {
 
 input PartyUpdateInput {
   member: UserUpdateOneWithoutPartyInput
-  messages: ChatUpdateManyInput
+  messages: ChatUpdateManyWithoutPartyInput
   confirmedMember: UserUpdateOneInput
+}
+
+input PartyUpdateOneRequiredWithoutMessagesInput {
+  create: PartyCreateWithoutMessagesInput
+  update: PartyUpdateWithoutMessagesDataInput
+  upsert: PartyUpsertWithoutMessagesInput
+  connect: PartyWhereUniqueInput
 }
 
 input PartyUpdateOneWithoutMemberInput {
@@ -323,13 +351,23 @@ input PartyUpdateOneWithoutMemberInput {
 }
 
 input PartyUpdateWithoutMemberDataInput {
-  messages: ChatUpdateManyInput
+  messages: ChatUpdateManyWithoutPartyInput
+  confirmedMember: UserUpdateOneInput
+}
+
+input PartyUpdateWithoutMessagesDataInput {
+  member: UserUpdateOneWithoutPartyInput
   confirmedMember: UserUpdateOneInput
 }
 
 input PartyUpsertWithoutMemberInput {
   update: PartyUpdateWithoutMemberDataInput!
   create: PartyCreateWithoutMemberInput!
+}
+
+input PartyUpsertWithoutMessagesInput {
+  update: PartyUpdateWithoutMessagesDataInput!
+  create: PartyCreateWithoutMessagesInput!
 }
 
 input PartyWhereInput {
@@ -363,9 +401,14 @@ input PartyWhereUniqueInput {
 
 type Promotion {
   id: ID!
-  coverImageUrl: String
   title: String!
+  coverImageUrl: String
   description: String!
+  duration: String
+  location: String
+  additionalInfo: String
+  condition: String
+  contact: String
 }
 
 type PromotionConnection {
@@ -376,9 +419,14 @@ type PromotionConnection {
 
 input PromotionCreateInput {
   id: ID
-  coverImageUrl: String
   title: String!
+  coverImageUrl: String
   description: String!
+  duration: String
+  location: String
+  additionalInfo: String
+  condition: String
+  contact: String
 }
 
 type PromotionEdge {
@@ -389,19 +437,34 @@ type PromotionEdge {
 enum PromotionOrderByInput {
   id_ASC
   id_DESC
-  coverImageUrl_ASC
-  coverImageUrl_DESC
   title_ASC
   title_DESC
+  coverImageUrl_ASC
+  coverImageUrl_DESC
   description_ASC
   description_DESC
+  duration_ASC
+  duration_DESC
+  location_ASC
+  location_DESC
+  additionalInfo_ASC
+  additionalInfo_DESC
+  condition_ASC
+  condition_DESC
+  contact_ASC
+  contact_DESC
 }
 
 type PromotionPreviousValues {
   id: ID!
-  coverImageUrl: String
   title: String!
+  coverImageUrl: String
   description: String!
+  duration: String
+  location: String
+  additionalInfo: String
+  condition: String
+  contact: String
 }
 
 type PromotionSubscriptionPayload {
@@ -423,15 +486,25 @@ input PromotionSubscriptionWhereInput {
 }
 
 input PromotionUpdateInput {
-  coverImageUrl: String
   title: String
+  coverImageUrl: String
   description: String
+  duration: String
+  location: String
+  additionalInfo: String
+  condition: String
+  contact: String
 }
 
 input PromotionUpdateManyMutationInput {
-  coverImageUrl: String
   title: String
+  coverImageUrl: String
   description: String
+  duration: String
+  location: String
+  additionalInfo: String
+  condition: String
+  contact: String
 }
 
 input PromotionWhereInput {
@@ -449,20 +522,6 @@ input PromotionWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  coverImageUrl: String
-  coverImageUrl_not: String
-  coverImageUrl_in: [String!]
-  coverImageUrl_not_in: [String!]
-  coverImageUrl_lt: String
-  coverImageUrl_lte: String
-  coverImageUrl_gt: String
-  coverImageUrl_gte: String
-  coverImageUrl_contains: String
-  coverImageUrl_not_contains: String
-  coverImageUrl_starts_with: String
-  coverImageUrl_not_starts_with: String
-  coverImageUrl_ends_with: String
-  coverImageUrl_not_ends_with: String
   title: String
   title_not: String
   title_in: [String!]
@@ -477,6 +536,20 @@ input PromotionWhereInput {
   title_not_starts_with: String
   title_ends_with: String
   title_not_ends_with: String
+  coverImageUrl: String
+  coverImageUrl_not: String
+  coverImageUrl_in: [String!]
+  coverImageUrl_not_in: [String!]
+  coverImageUrl_lt: String
+  coverImageUrl_lte: String
+  coverImageUrl_gt: String
+  coverImageUrl_gte: String
+  coverImageUrl_contains: String
+  coverImageUrl_not_contains: String
+  coverImageUrl_starts_with: String
+  coverImageUrl_not_starts_with: String
+  coverImageUrl_ends_with: String
+  coverImageUrl_not_ends_with: String
   description: String
   description_not: String
   description_in: [String!]
@@ -491,6 +564,76 @@ input PromotionWhereInput {
   description_not_starts_with: String
   description_ends_with: String
   description_not_ends_with: String
+  duration: String
+  duration_not: String
+  duration_in: [String!]
+  duration_not_in: [String!]
+  duration_lt: String
+  duration_lte: String
+  duration_gt: String
+  duration_gte: String
+  duration_contains: String
+  duration_not_contains: String
+  duration_starts_with: String
+  duration_not_starts_with: String
+  duration_ends_with: String
+  duration_not_ends_with: String
+  location: String
+  location_not: String
+  location_in: [String!]
+  location_not_in: [String!]
+  location_lt: String
+  location_lte: String
+  location_gt: String
+  location_gte: String
+  location_contains: String
+  location_not_contains: String
+  location_starts_with: String
+  location_not_starts_with: String
+  location_ends_with: String
+  location_not_ends_with: String
+  additionalInfo: String
+  additionalInfo_not: String
+  additionalInfo_in: [String!]
+  additionalInfo_not_in: [String!]
+  additionalInfo_lt: String
+  additionalInfo_lte: String
+  additionalInfo_gt: String
+  additionalInfo_gte: String
+  additionalInfo_contains: String
+  additionalInfo_not_contains: String
+  additionalInfo_starts_with: String
+  additionalInfo_not_starts_with: String
+  additionalInfo_ends_with: String
+  additionalInfo_not_ends_with: String
+  condition: String
+  condition_not: String
+  condition_in: [String!]
+  condition_not_in: [String!]
+  condition_lt: String
+  condition_lte: String
+  condition_gt: String
+  condition_gte: String
+  condition_contains: String
+  condition_not_contains: String
+  condition_starts_with: String
+  condition_not_starts_with: String
+  condition_ends_with: String
+  condition_not_ends_with: String
+  contact: String
+  contact_not: String
+  contact_in: [String!]
+  contact_not_in: [String!]
+  contact_lt: String
+  contact_lte: String
+  contact_gt: String
+  contact_gte: String
+  contact_contains: String
+  contact_not_contains: String
+  contact_starts_with: String
+  contact_not_starts_with: String
+  contact_ends_with: String
+  contact_not_ends_with: String
   AND: [PromotionWhereInput!]
   OR: [PromotionWhereInput!]
   NOT: [PromotionWhereInput!]

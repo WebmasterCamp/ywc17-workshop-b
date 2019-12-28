@@ -225,12 +225,22 @@ export type PartyOrderByInput = "id_ASC" | "id_DESC";
 export type PromotionOrderByInput =
   | "id_ASC"
   | "id_DESC"
-  | "coverImageUrl_ASC"
-  | "coverImageUrl_DESC"
   | "title_ASC"
   | "title_DESC"
+  | "coverImageUrl_ASC"
+  | "coverImageUrl_DESC"
   | "description_ASC"
-  | "description_DESC";
+  | "description_DESC"
+  | "duration_ASC"
+  | "duration_DESC"
+  | "location_ASC"
+  | "location_DESC"
+  | "additionalInfo_ASC"
+  | "additionalInfo_DESC"
+  | "condition_ASC"
+  | "condition_DESC"
+  | "contact_ASC"
+  | "contact_DESC";
 
 export type UserOrderByInput =
   | "id_ASC"
@@ -276,6 +286,7 @@ export interface ChatWhereInput {
   message_not_starts_with?: Maybe<String>;
   message_ends_with?: Maybe<String>;
   message_not_ends_with?: Maybe<String>;
+  party?: Maybe<PartyWhereInput>;
   AND?: Maybe<ChatWhereInput[] | ChatWhereInput>;
   OR?: Maybe<ChatWhereInput[] | ChatWhereInput>;
   NOT?: Maybe<ChatWhereInput[] | ChatWhereInput>;
@@ -378,20 +389,6 @@ export interface PromotionWhereInput {
   id_not_starts_with?: Maybe<ID_Input>;
   id_ends_with?: Maybe<ID_Input>;
   id_not_ends_with?: Maybe<ID_Input>;
-  coverImageUrl?: Maybe<String>;
-  coverImageUrl_not?: Maybe<String>;
-  coverImageUrl_in?: Maybe<String[] | String>;
-  coverImageUrl_not_in?: Maybe<String[] | String>;
-  coverImageUrl_lt?: Maybe<String>;
-  coverImageUrl_lte?: Maybe<String>;
-  coverImageUrl_gt?: Maybe<String>;
-  coverImageUrl_gte?: Maybe<String>;
-  coverImageUrl_contains?: Maybe<String>;
-  coverImageUrl_not_contains?: Maybe<String>;
-  coverImageUrl_starts_with?: Maybe<String>;
-  coverImageUrl_not_starts_with?: Maybe<String>;
-  coverImageUrl_ends_with?: Maybe<String>;
-  coverImageUrl_not_ends_with?: Maybe<String>;
   title?: Maybe<String>;
   title_not?: Maybe<String>;
   title_in?: Maybe<String[] | String>;
@@ -406,6 +403,20 @@ export interface PromotionWhereInput {
   title_not_starts_with?: Maybe<String>;
   title_ends_with?: Maybe<String>;
   title_not_ends_with?: Maybe<String>;
+  coverImageUrl?: Maybe<String>;
+  coverImageUrl_not?: Maybe<String>;
+  coverImageUrl_in?: Maybe<String[] | String>;
+  coverImageUrl_not_in?: Maybe<String[] | String>;
+  coverImageUrl_lt?: Maybe<String>;
+  coverImageUrl_lte?: Maybe<String>;
+  coverImageUrl_gt?: Maybe<String>;
+  coverImageUrl_gte?: Maybe<String>;
+  coverImageUrl_contains?: Maybe<String>;
+  coverImageUrl_not_contains?: Maybe<String>;
+  coverImageUrl_starts_with?: Maybe<String>;
+  coverImageUrl_not_starts_with?: Maybe<String>;
+  coverImageUrl_ends_with?: Maybe<String>;
+  coverImageUrl_not_ends_with?: Maybe<String>;
   description?: Maybe<String>;
   description_not?: Maybe<String>;
   description_in?: Maybe<String[] | String>;
@@ -420,6 +431,76 @@ export interface PromotionWhereInput {
   description_not_starts_with?: Maybe<String>;
   description_ends_with?: Maybe<String>;
   description_not_ends_with?: Maybe<String>;
+  duration?: Maybe<String>;
+  duration_not?: Maybe<String>;
+  duration_in?: Maybe<String[] | String>;
+  duration_not_in?: Maybe<String[] | String>;
+  duration_lt?: Maybe<String>;
+  duration_lte?: Maybe<String>;
+  duration_gt?: Maybe<String>;
+  duration_gte?: Maybe<String>;
+  duration_contains?: Maybe<String>;
+  duration_not_contains?: Maybe<String>;
+  duration_starts_with?: Maybe<String>;
+  duration_not_starts_with?: Maybe<String>;
+  duration_ends_with?: Maybe<String>;
+  duration_not_ends_with?: Maybe<String>;
+  location?: Maybe<String>;
+  location_not?: Maybe<String>;
+  location_in?: Maybe<String[] | String>;
+  location_not_in?: Maybe<String[] | String>;
+  location_lt?: Maybe<String>;
+  location_lte?: Maybe<String>;
+  location_gt?: Maybe<String>;
+  location_gte?: Maybe<String>;
+  location_contains?: Maybe<String>;
+  location_not_contains?: Maybe<String>;
+  location_starts_with?: Maybe<String>;
+  location_not_starts_with?: Maybe<String>;
+  location_ends_with?: Maybe<String>;
+  location_not_ends_with?: Maybe<String>;
+  additionalInfo?: Maybe<String>;
+  additionalInfo_not?: Maybe<String>;
+  additionalInfo_in?: Maybe<String[] | String>;
+  additionalInfo_not_in?: Maybe<String[] | String>;
+  additionalInfo_lt?: Maybe<String>;
+  additionalInfo_lte?: Maybe<String>;
+  additionalInfo_gt?: Maybe<String>;
+  additionalInfo_gte?: Maybe<String>;
+  additionalInfo_contains?: Maybe<String>;
+  additionalInfo_not_contains?: Maybe<String>;
+  additionalInfo_starts_with?: Maybe<String>;
+  additionalInfo_not_starts_with?: Maybe<String>;
+  additionalInfo_ends_with?: Maybe<String>;
+  additionalInfo_not_ends_with?: Maybe<String>;
+  condition?: Maybe<String>;
+  condition_not?: Maybe<String>;
+  condition_in?: Maybe<String[] | String>;
+  condition_not_in?: Maybe<String[] | String>;
+  condition_lt?: Maybe<String>;
+  condition_lte?: Maybe<String>;
+  condition_gt?: Maybe<String>;
+  condition_gte?: Maybe<String>;
+  condition_contains?: Maybe<String>;
+  condition_not_contains?: Maybe<String>;
+  condition_starts_with?: Maybe<String>;
+  condition_not_starts_with?: Maybe<String>;
+  condition_ends_with?: Maybe<String>;
+  condition_not_ends_with?: Maybe<String>;
+  contact?: Maybe<String>;
+  contact_not?: Maybe<String>;
+  contact_in?: Maybe<String[] | String>;
+  contact_not_in?: Maybe<String[] | String>;
+  contact_lt?: Maybe<String>;
+  contact_lte?: Maybe<String>;
+  contact_gt?: Maybe<String>;
+  contact_gte?: Maybe<String>;
+  contact_contains?: Maybe<String>;
+  contact_not_contains?: Maybe<String>;
+  contact_starts_with?: Maybe<String>;
+  contact_not_starts_with?: Maybe<String>;
+  contact_ends_with?: Maybe<String>;
+  contact_not_ends_with?: Maybe<String>;
   AND?: Maybe<PromotionWhereInput[] | PromotionWhereInput>;
   OR?: Maybe<PromotionWhereInput[] | PromotionWhereInput>;
   NOT?: Maybe<PromotionWhereInput[] | PromotionWhereInput>;
@@ -433,6 +514,7 @@ export interface ChatCreateInput {
   id?: Maybe<ID_Input>;
   owner: UserCreateOneInput;
   message: String;
+  party: PartyCreateOneWithoutMessagesInput;
 }
 
 export interface UserCreateOneInput {
@@ -454,18 +536,47 @@ export interface PartyCreateOneWithoutMemberInput {
 
 export interface PartyCreateWithoutMemberInput {
   id?: Maybe<ID_Input>;
-  messages?: Maybe<ChatCreateManyInput>;
+  messages?: Maybe<ChatCreateManyWithoutPartyInput>;
   confirmedMember?: Maybe<UserCreateOneInput>;
 }
 
-export interface ChatCreateManyInput {
-  create?: Maybe<ChatCreateInput[] | ChatCreateInput>;
+export interface ChatCreateManyWithoutPartyInput {
+  create?: Maybe<ChatCreateWithoutPartyInput[] | ChatCreateWithoutPartyInput>;
   connect?: Maybe<ChatWhereUniqueInput[] | ChatWhereUniqueInput>;
+}
+
+export interface ChatCreateWithoutPartyInput {
+  id?: Maybe<ID_Input>;
+  owner: UserCreateOneInput;
+  message: String;
+}
+
+export interface PartyCreateOneWithoutMessagesInput {
+  create?: Maybe<PartyCreateWithoutMessagesInput>;
+  connect?: Maybe<PartyWhereUniqueInput>;
+}
+
+export interface PartyCreateWithoutMessagesInput {
+  id?: Maybe<ID_Input>;
+  member?: Maybe<UserCreateOneWithoutPartyInput>;
+  confirmedMember?: Maybe<UserCreateOneInput>;
+}
+
+export interface UserCreateOneWithoutPartyInput {
+  create?: Maybe<UserCreateWithoutPartyInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface UserCreateWithoutPartyInput {
+  id?: Maybe<ID_Input>;
+  name: String;
+  profileImageUrl?: Maybe<String>;
 }
 
 export interface ChatUpdateInput {
   owner?: Maybe<UserUpdateOneRequiredInput>;
   message?: Maybe<String>;
+  party?: Maybe<PartyUpdateOneRequiredWithoutMessagesInput>;
 }
 
 export interface UserUpdateOneRequiredInput {
@@ -491,44 +602,44 @@ export interface PartyUpdateOneWithoutMemberInput {
 }
 
 export interface PartyUpdateWithoutMemberDataInput {
-  messages?: Maybe<ChatUpdateManyInput>;
+  messages?: Maybe<ChatUpdateManyWithoutPartyInput>;
   confirmedMember?: Maybe<UserUpdateOneInput>;
 }
 
-export interface ChatUpdateManyInput {
-  create?: Maybe<ChatCreateInput[] | ChatCreateInput>;
-  update?: Maybe<
-    | ChatUpdateWithWhereUniqueNestedInput[]
-    | ChatUpdateWithWhereUniqueNestedInput
-  >;
-  upsert?: Maybe<
-    | ChatUpsertWithWhereUniqueNestedInput[]
-    | ChatUpsertWithWhereUniqueNestedInput
-  >;
+export interface ChatUpdateManyWithoutPartyInput {
+  create?: Maybe<ChatCreateWithoutPartyInput[] | ChatCreateWithoutPartyInput>;
   delete?: Maybe<ChatWhereUniqueInput[] | ChatWhereUniqueInput>;
   connect?: Maybe<ChatWhereUniqueInput[] | ChatWhereUniqueInput>;
   set?: Maybe<ChatWhereUniqueInput[] | ChatWhereUniqueInput>;
   disconnect?: Maybe<ChatWhereUniqueInput[] | ChatWhereUniqueInput>;
+  update?: Maybe<
+    | ChatUpdateWithWhereUniqueWithoutPartyInput[]
+    | ChatUpdateWithWhereUniqueWithoutPartyInput
+  >;
+  upsert?: Maybe<
+    | ChatUpsertWithWhereUniqueWithoutPartyInput[]
+    | ChatUpsertWithWhereUniqueWithoutPartyInput
+  >;
   deleteMany?: Maybe<ChatScalarWhereInput[] | ChatScalarWhereInput>;
   updateMany?: Maybe<
     ChatUpdateManyWithWhereNestedInput[] | ChatUpdateManyWithWhereNestedInput
   >;
 }
 
-export interface ChatUpdateWithWhereUniqueNestedInput {
+export interface ChatUpdateWithWhereUniqueWithoutPartyInput {
   where: ChatWhereUniqueInput;
-  data: ChatUpdateDataInput;
+  data: ChatUpdateWithoutPartyDataInput;
 }
 
-export interface ChatUpdateDataInput {
+export interface ChatUpdateWithoutPartyDataInput {
   owner?: Maybe<UserUpdateOneRequiredInput>;
   message?: Maybe<String>;
 }
 
-export interface ChatUpsertWithWhereUniqueNestedInput {
+export interface ChatUpsertWithWhereUniqueWithoutPartyInput {
   where: ChatWhereUniqueInput;
-  update: ChatUpdateDataInput;
-  create: ChatCreateInput;
+  update: ChatUpdateWithoutPartyDataInput;
+  create: ChatCreateWithoutPartyInput;
 }
 
 export interface ChatScalarWhereInput {
@@ -593,31 +704,15 @@ export interface PartyUpsertWithoutMemberInput {
   create: PartyCreateWithoutMemberInput;
 }
 
-export interface ChatUpdateManyMutationInput {
-  message?: Maybe<String>;
+export interface PartyUpdateOneRequiredWithoutMessagesInput {
+  create?: Maybe<PartyCreateWithoutMessagesInput>;
+  update?: Maybe<PartyUpdateWithoutMessagesDataInput>;
+  upsert?: Maybe<PartyUpsertWithoutMessagesInput>;
+  connect?: Maybe<PartyWhereUniqueInput>;
 }
 
-export interface PartyCreateInput {
-  id?: Maybe<ID_Input>;
-  member?: Maybe<UserCreateOneWithoutPartyInput>;
-  messages?: Maybe<ChatCreateManyInput>;
-  confirmedMember?: Maybe<UserCreateOneInput>;
-}
-
-export interface UserCreateOneWithoutPartyInput {
-  create?: Maybe<UserCreateWithoutPartyInput>;
-  connect?: Maybe<UserWhereUniqueInput>;
-}
-
-export interface UserCreateWithoutPartyInput {
-  id?: Maybe<ID_Input>;
-  name: String;
-  profileImageUrl?: Maybe<String>;
-}
-
-export interface PartyUpdateInput {
+export interface PartyUpdateWithoutMessagesDataInput {
   member?: Maybe<UserUpdateOneWithoutPartyInput>;
-  messages?: Maybe<ChatUpdateManyInput>;
   confirmedMember?: Maybe<UserUpdateOneInput>;
 }
 
@@ -640,23 +735,60 @@ export interface UserUpsertWithoutPartyInput {
   create: UserCreateWithoutPartyInput;
 }
 
+export interface PartyUpsertWithoutMessagesInput {
+  update: PartyUpdateWithoutMessagesDataInput;
+  create: PartyCreateWithoutMessagesInput;
+}
+
+export interface ChatUpdateManyMutationInput {
+  message?: Maybe<String>;
+}
+
+export interface PartyCreateInput {
+  id?: Maybe<ID_Input>;
+  member?: Maybe<UserCreateOneWithoutPartyInput>;
+  messages?: Maybe<ChatCreateManyWithoutPartyInput>;
+  confirmedMember?: Maybe<UserCreateOneInput>;
+}
+
+export interface PartyUpdateInput {
+  member?: Maybe<UserUpdateOneWithoutPartyInput>;
+  messages?: Maybe<ChatUpdateManyWithoutPartyInput>;
+  confirmedMember?: Maybe<UserUpdateOneInput>;
+}
+
 export interface PromotionCreateInput {
   id?: Maybe<ID_Input>;
-  coverImageUrl?: Maybe<String>;
   title: String;
+  coverImageUrl?: Maybe<String>;
   description: String;
+  duration?: Maybe<String>;
+  location?: Maybe<String>;
+  additionalInfo?: Maybe<String>;
+  condition?: Maybe<String>;
+  contact?: Maybe<String>;
 }
 
 export interface PromotionUpdateInput {
-  coverImageUrl?: Maybe<String>;
   title?: Maybe<String>;
+  coverImageUrl?: Maybe<String>;
   description?: Maybe<String>;
+  duration?: Maybe<String>;
+  location?: Maybe<String>;
+  additionalInfo?: Maybe<String>;
+  condition?: Maybe<String>;
+  contact?: Maybe<String>;
 }
 
 export interface PromotionUpdateManyMutationInput {
-  coverImageUrl?: Maybe<String>;
   title?: Maybe<String>;
+  coverImageUrl?: Maybe<String>;
   description?: Maybe<String>;
+  duration?: Maybe<String>;
+  location?: Maybe<String>;
+  additionalInfo?: Maybe<String>;
+  condition?: Maybe<String>;
+  contact?: Maybe<String>;
 }
 
 export interface UserUpdateInput {
@@ -733,6 +865,7 @@ export interface ChatPromise extends Promise<Chat>, Fragmentable {
   id: () => Promise<ID_Output>;
   owner: <T = UserPromise>() => T;
   message: () => Promise<String>;
+  party: <T = PartyPromise>() => T;
 }
 
 export interface ChatSubscription
@@ -741,6 +874,7 @@ export interface ChatSubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
   owner: <T = UserSubscription>() => T;
   message: () => Promise<AsyncIterator<String>>;
+  party: <T = PartySubscription>() => T;
 }
 
 export interface ChatNullablePromise
@@ -749,6 +883,7 @@ export interface ChatNullablePromise
   id: () => Promise<ID_Output>;
   owner: <T = UserPromise>() => T;
   message: () => Promise<String>;
+  party: <T = PartyPromise>() => T;
 }
 
 export interface User {
@@ -968,34 +1103,54 @@ export interface AggregatePartySubscription
 
 export interface Promotion {
   id: ID_Output;
-  coverImageUrl?: String;
   title: String;
+  coverImageUrl?: String;
   description: String;
+  duration?: String;
+  location?: String;
+  additionalInfo?: String;
+  condition?: String;
+  contact?: String;
 }
 
 export interface PromotionPromise extends Promise<Promotion>, Fragmentable {
   id: () => Promise<ID_Output>;
-  coverImageUrl: () => Promise<String>;
   title: () => Promise<String>;
+  coverImageUrl: () => Promise<String>;
   description: () => Promise<String>;
+  duration: () => Promise<String>;
+  location: () => Promise<String>;
+  additionalInfo: () => Promise<String>;
+  condition: () => Promise<String>;
+  contact: () => Promise<String>;
 }
 
 export interface PromotionSubscription
   extends Promise<AsyncIterator<Promotion>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  coverImageUrl: () => Promise<AsyncIterator<String>>;
   title: () => Promise<AsyncIterator<String>>;
+  coverImageUrl: () => Promise<AsyncIterator<String>>;
   description: () => Promise<AsyncIterator<String>>;
+  duration: () => Promise<AsyncIterator<String>>;
+  location: () => Promise<AsyncIterator<String>>;
+  additionalInfo: () => Promise<AsyncIterator<String>>;
+  condition: () => Promise<AsyncIterator<String>>;
+  contact: () => Promise<AsyncIterator<String>>;
 }
 
 export interface PromotionNullablePromise
   extends Promise<Promotion | null>,
     Fragmentable {
   id: () => Promise<ID_Output>;
-  coverImageUrl: () => Promise<String>;
   title: () => Promise<String>;
+  coverImageUrl: () => Promise<String>;
   description: () => Promise<String>;
+  duration: () => Promise<String>;
+  location: () => Promise<String>;
+  additionalInfo: () => Promise<String>;
+  condition: () => Promise<String>;
+  contact: () => Promise<String>;
 }
 
 export interface PromotionConnection {
@@ -1236,27 +1391,42 @@ export interface PromotionSubscriptionPayloadSubscription
 
 export interface PromotionPreviousValues {
   id: ID_Output;
-  coverImageUrl?: String;
   title: String;
+  coverImageUrl?: String;
   description: String;
+  duration?: String;
+  location?: String;
+  additionalInfo?: String;
+  condition?: String;
+  contact?: String;
 }
 
 export interface PromotionPreviousValuesPromise
   extends Promise<PromotionPreviousValues>,
     Fragmentable {
   id: () => Promise<ID_Output>;
-  coverImageUrl: () => Promise<String>;
   title: () => Promise<String>;
+  coverImageUrl: () => Promise<String>;
   description: () => Promise<String>;
+  duration: () => Promise<String>;
+  location: () => Promise<String>;
+  additionalInfo: () => Promise<String>;
+  condition: () => Promise<String>;
+  contact: () => Promise<String>;
 }
 
 export interface PromotionPreviousValuesSubscription
   extends Promise<AsyncIterator<PromotionPreviousValues>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  coverImageUrl: () => Promise<AsyncIterator<String>>;
   title: () => Promise<AsyncIterator<String>>;
+  coverImageUrl: () => Promise<AsyncIterator<String>>;
   description: () => Promise<AsyncIterator<String>>;
+  duration: () => Promise<AsyncIterator<String>>;
+  location: () => Promise<AsyncIterator<String>>;
+  additionalInfo: () => Promise<AsyncIterator<String>>;
+  condition: () => Promise<AsyncIterator<String>>;
+  contact: () => Promise<AsyncIterator<String>>;
 }
 
 export interface UserSubscriptionPayload {

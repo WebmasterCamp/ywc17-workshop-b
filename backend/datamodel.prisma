@@ -7,13 +7,19 @@ type User {
 
 type Promotion {
   id: ID! @id
-  coverImageUrl: String
   title: String!
+  coverImageUrl: String
   description: String!
+  duration: String
+  location: String
+  additionalInfo : String
+  condition: String
+  contact: String
 }
 
 type Party {
   id: ID! @id
+  title: String!
   member: User @relation(name: "Joined")
   messages: [Chat!]!
   confirmedMember: User  @relation(name: "Confirmed")
@@ -23,4 +29,5 @@ type Chat {
   id: ID! @id
   owner: User!
   message: String!
+  party: Party!
 }
