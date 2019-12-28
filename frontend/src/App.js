@@ -1,10 +1,10 @@
 import React from "react";
 import HomePage from "./pages/home";
 import PromotionView from "./pages/promotion";
-import ApolloClient from "apollo-boost";
+import ApolloClient from "apollo-client";
 import { ApolloProvider } from "@apollo/react-hooks";
 import { SubscriptionClient } from "subscriptions-transport-ws";
-import { createHttpLink  } from 'apollo-link-http';
+import { HttpLink  } from 'apollo-link-http';
 import { ApolloLink, concat, split } from 'apollo-link';
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { WebSocketLink } from 'apollo-link-ws';
@@ -22,9 +22,10 @@ import {
   useParams
 } from "react-router-dom";
 import { ApiTest } from "./api";
-import { PartiesView } from "./pages/party"
+import { PartiesView, WaitingParty } from "./pages/party"
 
-const httpLink = new createHttpLink({ uri: 'https://eu1.prisma.sh/peerawas-archavanuntakun-77f2e0/backend/dev' });
+
+const httpLink = new HttpLink({ uri: 'https://eu1.prisma.sh/peerawas-archavanuntakun-77f2e0/backend/dev' });
 // const client = new ApolloClient({
 //   uri: " https://eu1.prisma.sh/peerawas-archavanuntakun-77f2e0/backend/dev"
 // });
@@ -68,7 +69,13 @@ function App() {
             <PartiesView/>
           </Route>
           <Route path="/users/:id">{/* user*/}</Route>
-          <Route path="/chat/:id">{/* chat with party */}</Route>
+          <Route path="/chat/:id">
+            {/* chat with party */}
+            
+          </Route>
+          <Route path="/waitingParty">
+            <WaitingParty/>
+          </Route>
           {/* some finallize route */}
 
           <Route path="/api">

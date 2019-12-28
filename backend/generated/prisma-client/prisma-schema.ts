@@ -14,6 +14,10 @@ type AggregatePromotion {
   count: Int!
 }
 
+type AggregateTag {
+  count: Int!
+}
+
 type AggregateUser {
   count: Int!
 }
@@ -24,6 +28,8 @@ type BatchPayload {
 
 type Chat {
   id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
   owner: User!
   message: String!
   party: Party!
@@ -61,12 +67,18 @@ type ChatEdge {
 enum ChatOrderByInput {
   id_ASC
   id_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
   message_ASC
   message_DESC
 }
 
 type ChatPreviousValues {
   id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
   message: String!
 }
 
@@ -85,6 +97,22 @@ input ChatScalarWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
   message: String
   message_not: String
   message_in: [String!]
@@ -184,6 +212,22 @@ input ChatWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
   owner: UserWhereInput
   message: String
   message_not: String
@@ -209,6 +253,8 @@ input ChatWhereUniqueInput {
   id: ID
 }
 
+scalar DateTime
+
 scalar Long
 
 type Mutation {
@@ -220,6 +266,7 @@ type Mutation {
   deleteManyChats(where: ChatWhereInput): BatchPayload!
   createParty(data: PartyCreateInput!): Party!
   updateParty(data: PartyUpdateInput!, where: PartyWhereUniqueInput!): Party
+  updateManyParties(data: PartyUpdateManyMutationInput!, where: PartyWhereInput): BatchPayload!
   upsertParty(where: PartyWhereUniqueInput!, create: PartyCreateInput!, update: PartyUpdateInput!): Party!
   deleteParty(where: PartyWhereUniqueInput!): Party
   deleteManyParties(where: PartyWhereInput): BatchPayload!
@@ -229,6 +276,12 @@ type Mutation {
   upsertPromotion(where: PromotionWhereUniqueInput!, create: PromotionCreateInput!, update: PromotionUpdateInput!): Promotion!
   deletePromotion(where: PromotionWhereUniqueInput!): Promotion
   deleteManyPromotions(where: PromotionWhereInput): BatchPayload!
+  createTag(data: TagCreateInput!): Tag!
+  updateTag(data: TagUpdateInput!, where: TagWhereUniqueInput!): Tag
+  updateManyTags(data: TagUpdateManyMutationInput!, where: TagWhereInput): BatchPayload!
+  upsertTag(where: TagWhereUniqueInput!, create: TagCreateInput!, update: TagUpdateInput!): Tag!
+  deleteTag(where: TagWhereUniqueInput!): Tag
+  deleteManyTags(where: TagWhereInput): BatchPayload!
   createUser(data: UserCreateInput!): User!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
@@ -256,6 +309,9 @@ type PageInfo {
 
 type Party {
   id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  title: String!
   member: User
   messages(where: ChatWhereInput, orderBy: ChatOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Chat!]
   confirmedMember: User
@@ -269,6 +325,7 @@ type PartyConnection {
 
 input PartyCreateInput {
   id: ID
+  title: String!
   member: UserCreateOneWithoutPartyInput
   messages: ChatCreateManyWithoutPartyInput
   confirmedMember: UserCreateOneInput
@@ -286,12 +343,14 @@ input PartyCreateOneWithoutMessagesInput {
 
 input PartyCreateWithoutMemberInput {
   id: ID
+  title: String!
   messages: ChatCreateManyWithoutPartyInput
   confirmedMember: UserCreateOneInput
 }
 
 input PartyCreateWithoutMessagesInput {
   id: ID
+  title: String!
   member: UserCreateOneWithoutPartyInput
   confirmedMember: UserCreateOneInput
 }
@@ -304,10 +363,19 @@ type PartyEdge {
 enum PartyOrderByInput {
   id_ASC
   id_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  title_ASC
+  title_DESC
 }
 
 type PartyPreviousValues {
   id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  title: String!
 }
 
 type PartySubscriptionPayload {
@@ -329,9 +397,14 @@ input PartySubscriptionWhereInput {
 }
 
 input PartyUpdateInput {
+  title: String
   member: UserUpdateOneWithoutPartyInput
   messages: ChatUpdateManyWithoutPartyInput
   confirmedMember: UserUpdateOneInput
+}
+
+input PartyUpdateManyMutationInput {
+  title: String
 }
 
 input PartyUpdateOneRequiredWithoutMessagesInput {
@@ -351,11 +424,13 @@ input PartyUpdateOneWithoutMemberInput {
 }
 
 input PartyUpdateWithoutMemberDataInput {
+  title: String
   messages: ChatUpdateManyWithoutPartyInput
   confirmedMember: UserUpdateOneInput
 }
 
 input PartyUpdateWithoutMessagesDataInput {
+  title: String
   member: UserUpdateOneWithoutPartyInput
   confirmedMember: UserUpdateOneInput
 }
@@ -385,6 +460,36 @@ input PartyWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  title: String
+  title_not: String
+  title_in: [String!]
+  title_not_in: [String!]
+  title_lt: String
+  title_lte: String
+  title_gt: String
+  title_gte: String
+  title_contains: String
+  title_not_contains: String
+  title_starts_with: String
+  title_not_starts_with: String
+  title_ends_with: String
+  title_not_ends_with: String
   member: UserWhereInput
   messages_every: ChatWhereInput
   messages_some: ChatWhereInput
@@ -401,6 +506,8 @@ input PartyWhereUniqueInput {
 
 type Promotion {
   id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
   title: String!
   coverImageUrl: String
   description: String!
@@ -409,6 +516,7 @@ type Promotion {
   additionalInfo: String
   condition: String
   contact: String
+  tag(where: TagWhereInput, orderBy: TagOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Tag!]
 }
 
 type PromotionConnection {
@@ -427,6 +535,7 @@ input PromotionCreateInput {
   additionalInfo: String
   condition: String
   contact: String
+  tag: TagCreateManyInput
 }
 
 type PromotionEdge {
@@ -437,6 +546,10 @@ type PromotionEdge {
 enum PromotionOrderByInput {
   id_ASC
   id_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
   title_ASC
   title_DESC
   coverImageUrl_ASC
@@ -457,6 +570,8 @@ enum PromotionOrderByInput {
 
 type PromotionPreviousValues {
   id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
   title: String!
   coverImageUrl: String
   description: String!
@@ -494,6 +609,7 @@ input PromotionUpdateInput {
   additionalInfo: String
   condition: String
   contact: String
+  tag: TagUpdateManyInput
 }
 
 input PromotionUpdateManyMutationInput {
@@ -522,6 +638,22 @@ input PromotionWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
   title: String
   title_not: String
   title_in: [String!]
@@ -634,6 +766,9 @@ input PromotionWhereInput {
   contact_not_starts_with: String
   contact_ends_with: String
   contact_not_ends_with: String
+  tag_every: TagWhereInput
+  tag_some: TagWhereInput
+  tag_none: TagWhereInput
   AND: [PromotionWhereInput!]
   OR: [PromotionWhereInput!]
   NOT: [PromotionWhereInput!]
@@ -653,6 +788,9 @@ type Query {
   promotion(where: PromotionWhereUniqueInput!): Promotion
   promotions(where: PromotionWhereInput, orderBy: PromotionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Promotion]!
   promotionsConnection(where: PromotionWhereInput, orderBy: PromotionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PromotionConnection!
+  tag(where: TagWhereUniqueInput!): Tag
+  tags(where: TagWhereInput, orderBy: TagOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Tag]!
+  tagsConnection(where: TagWhereInput, orderBy: TagOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TagConnection!
   user(where: UserWhereUniqueInput!): User
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
@@ -663,7 +801,181 @@ type Subscription {
   chat(where: ChatSubscriptionWhereInput): ChatSubscriptionPayload
   party(where: PartySubscriptionWhereInput): PartySubscriptionPayload
   promotion(where: PromotionSubscriptionWhereInput): PromotionSubscriptionPayload
+  tag(where: TagSubscriptionWhereInput): TagSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
+}
+
+type Tag {
+  id: ID!
+  name: String
+}
+
+type TagConnection {
+  pageInfo: PageInfo!
+  edges: [TagEdge]!
+  aggregate: AggregateTag!
+}
+
+input TagCreateInput {
+  id: ID
+  name: String
+}
+
+input TagCreateManyInput {
+  create: [TagCreateInput!]
+  connect: [TagWhereUniqueInput!]
+}
+
+type TagEdge {
+  node: Tag!
+  cursor: String!
+}
+
+enum TagOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+}
+
+type TagPreviousValues {
+  id: ID!
+  name: String
+}
+
+input TagScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  AND: [TagScalarWhereInput!]
+  OR: [TagScalarWhereInput!]
+  NOT: [TagScalarWhereInput!]
+}
+
+type TagSubscriptionPayload {
+  mutation: MutationType!
+  node: Tag
+  updatedFields: [String!]
+  previousValues: TagPreviousValues
+}
+
+input TagSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: TagWhereInput
+  AND: [TagSubscriptionWhereInput!]
+  OR: [TagSubscriptionWhereInput!]
+  NOT: [TagSubscriptionWhereInput!]
+}
+
+input TagUpdateDataInput {
+  name: String
+}
+
+input TagUpdateInput {
+  name: String
+}
+
+input TagUpdateManyDataInput {
+  name: String
+}
+
+input TagUpdateManyInput {
+  create: [TagCreateInput!]
+  update: [TagUpdateWithWhereUniqueNestedInput!]
+  upsert: [TagUpsertWithWhereUniqueNestedInput!]
+  delete: [TagWhereUniqueInput!]
+  connect: [TagWhereUniqueInput!]
+  set: [TagWhereUniqueInput!]
+  disconnect: [TagWhereUniqueInput!]
+  deleteMany: [TagScalarWhereInput!]
+  updateMany: [TagUpdateManyWithWhereNestedInput!]
+}
+
+input TagUpdateManyMutationInput {
+  name: String
+}
+
+input TagUpdateManyWithWhereNestedInput {
+  where: TagScalarWhereInput!
+  data: TagUpdateManyDataInput!
+}
+
+input TagUpdateWithWhereUniqueNestedInput {
+  where: TagWhereUniqueInput!
+  data: TagUpdateDataInput!
+}
+
+input TagUpsertWithWhereUniqueNestedInput {
+  where: TagWhereUniqueInput!
+  update: TagUpdateDataInput!
+  create: TagCreateInput!
+}
+
+input TagWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  AND: [TagWhereInput!]
+  OR: [TagWhereInput!]
+  NOT: [TagWhereInput!]
+}
+
+input TagWhereUniqueInput {
+  id: ID
+  name: String
 }
 
 type User {

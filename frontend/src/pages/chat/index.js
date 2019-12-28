@@ -5,6 +5,27 @@ import gql from "graphql-tag";
 import _ from 'lodash'
 import {Link} from "react-router-dom"
 
+
+const SUBSCRIBE_NEW_PARTY = gql`
+  subscription newMessage {
+    chat(where: {
+      mutation_in: [CREATED]
+    }){
+      node{
+        id
+        owner{
+          name
+        }
+        message
+        party{
+          id
+          
+        }
+      }
+    }
+  }
+`;
+
 const GET_PARTIES = gql`
   query getAllParties {
       parties {
@@ -51,30 +72,3 @@ export const PartiesView = () => {
     </div>
   );
 };
-
-const SUBSCRIBE_NEW_PARTY = gql`
-  subscription newParty {
-    party {
-      node {
-        id
-        member {
-          name
-        }
-      }
-    }
-  }
-`;
-
-export const WaitingParty = () => {
-    const { data, error, loading } = useSubscription(SUBSCRIBE_NEW_PARTY);
-    if (loading) return <p>Loading ...</p>;
-    if (error) {
-      console.log(error);
-      return <p>error</p>;
-    }
-    console.log(data)
-    return <div>
-        <h4>New Party : {JSON.stringify(data.party)}</h4>
-        <Link to="/chat/123">Let's Chat</Link>
-    </div>;
-}
