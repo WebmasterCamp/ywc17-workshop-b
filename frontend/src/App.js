@@ -16,7 +16,7 @@ function App() {
     <Router>
         {/* Template */}
         <Switch>
-          <Route path="/step/" component={User}>
+          <Route path="/step/">
             {/* ... some MOCK step 0,1,2,3,4 */}
           </Route>
           <Route path="/promotions">
