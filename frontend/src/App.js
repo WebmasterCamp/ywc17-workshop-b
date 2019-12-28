@@ -3,6 +3,12 @@ import HomePage from "./pages/home";
 import PromotionView from "./pages/promotion";
 import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "@apollo/react-hooks";
+import { SubscriptionClient } from "subscriptions-transport-ws";
+import { createHttpLink  } from 'apollo-link-http';
+import { ApolloLink, concat, split } from 'apollo-link';
+import { InMemoryCache } from 'apollo-cache-inmemory'
+import { WebSocketLink } from 'apollo-link-ws';
+import { getMainDefinition } from 'apollo-utilities';
 
 import "antd/dist/antd.css";
 import "./App.css";
@@ -18,8 +24,31 @@ import {
 import { ApiTest } from "./api";
 import { PartiesView } from "./pages/party"
 
+const httpLink = new createHttpLink({ uri: 'https://eu1.prisma.sh/peerawas-archavanuntakun-77f2e0/backend/dev' });
+// const client = new ApolloClient({
+//   uri: " https://eu1.prisma.sh/peerawas-archavanuntakun-77f2e0/backend/dev"
+// });
+
+
+const subClient = new SubscriptionClient('wss://eu1.prisma.sh/peerawas-archavanuntakun-77f2e0/backend/dev', {
+  reconnect: true
+});
+
+const wsLink = new WebSocketLink(subClient);
+
+const newLink = split(
+  // split based on operation type
+  ({ query }) => {
+    const { kind, operation } = getMainDefinition(query);
+    return kind === 'OperationDefinition' && operation === 'subscription';
+  },
+  wsLink,
+  httpLink,
+);
+
 const client = new ApolloClient({
-  uri: " https://eu1.prisma.sh/peerawas-archavanuntakun-77f2e0/backend/dev"
+  link: newLink,
+  cache: new InMemoryCache()
 });
 
 function App() {
