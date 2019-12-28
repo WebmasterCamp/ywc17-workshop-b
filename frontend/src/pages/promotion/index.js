@@ -2,7 +2,7 @@ import React from "react";
 import { List, Input, Button, Form, Card } from "antd";
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
-import { range } from "../../util";
+import { range, gqlReady } from "../../util";
 import Meta from "antd/lib/card/Meta";
 import { useParams } from "react-router-dom";
 
@@ -26,10 +26,11 @@ const PromotionView = ({}) => {
   const { id } = useParams();
 
   // const [promotions, setPromotions] = useState(range(10).map(() => ({})));
-  const { data, loading, error } = useQuery(GET_PROMOTION, {
-    variables: { id  },
+  const result = useQuery(GET_PROMOTION, {
+    variables: { id }
   });
 
+  if (!gqlReady(result)) return null;
   // console.log(loading, data, error);
   //   if (error != undefined || data == undefined) return null;
 
@@ -42,7 +43,7 @@ const PromotionView = ({}) => {
   //     });
   //   };
 
-  return <div>{id}</div>;
+  return <div>{JSON.stringify(result.data)}</div>;
 };
 
 export default PromotionView;

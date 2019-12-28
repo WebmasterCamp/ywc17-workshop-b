@@ -2,7 +2,7 @@ import React from "react";
 import { List, Input, Button, Form, Card } from "antd";
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
-import { range } from "../../util";
+import { range, gqlReady } from "../../util";
 import Meta from "antd/lib/card/Meta";
 import { Link } from "react-router-dom";
 
@@ -24,11 +24,11 @@ const GET_ALL_PROMOTIONS = gql`
 
 const HomePage = ({ form: { getFieldDecorator, validateFields } }) => {
   // const [promotions, setPromotions] = useState(range(10).map(() => ({})));
-  const { data, loading, error } = useQuery(GET_ALL_PROMOTIONS);
+  const result = useQuery(GET_ALL_PROMOTIONS);
 
-  // console.log(loading, data, error);
-  if (error != undefined || data == undefined) return null;
-
+  if (!gqlReady(result)) return null;
+  
+  const { data } = result;
   const onFilter = e => {
     e.preventDefault();
     validateFields((err, values) => {
