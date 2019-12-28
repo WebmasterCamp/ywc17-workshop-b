@@ -6,6 +6,7 @@ import { range, gqlReady } from "../../util";
 import Meta from "antd/lib/card/Meta";
 import { useParams, Link } from "react-router-dom";
 import { Container, Button } from "react-floating-action-button";
+import _ from 'lodash'
 
 const GET_PROMOTION = gql`
   query getPromotion($id: ID!) {
@@ -19,9 +20,16 @@ const GET_PROMOTION = gql`
       additionalInfo
       condition
       contact
+      tag{
+        name
+      }
     }
   }
 `;
+
+const getDangHTML = str => {
+  return {__html: str};
+}
 
 const PromotionView = ({}) => {
   const { id } = useParams();
@@ -35,7 +43,7 @@ const PromotionView = ({}) => {
 
   const {
     data: {
-      promotion: { coverImageUrl, title, description }
+      promotion: { coverImageUrl, title, description, duration, location, additionalInfo, condition, contact, tag }
     }
   } = result;
   // console.log(loading, data, error);
@@ -50,6 +58,7 @@ const PromotionView = ({}) => {
   //     });
   //   };
 
+
   return (
     <div>
       <img src={coverImageUrl} style={{ width: "100vw", height: "50vh" }} />
@@ -58,8 +67,21 @@ const PromotionView = ({}) => {
       </div>
       <div style={{ padding: 15 }}>
         <h1>{title}</h1>
-        <h2>รายละเอียดโปรโมชั่น</h2>
+        <h2>รายละเอียดโปรโมชัน</h2>
         <p>{description}</p>
+        <h2>ระยะเวลาโปรโมชัน</h2>
+        <p>{duration}</p>
+        <h2>สาขาที่ร่วมรายการ</h2>
+        <p>{location}</p>
+        <h2>รายละเอียดโปรโมชัน</h2>
+        <p>{additionalInfo}</p>
+        <h2>*เงื่อนไขโปรโมชัน*</h2>
+        <p dangerouslySetInnerHTML={{__html: condition}}/>
+        <h2>ติดต่อสอบถามเพิ่มเติม</h2>
+        <p dangerouslySetInnerHTML={{__html: contact}}/>
+        <h2>Tags</h2>
+  {tag && _.map(tag, item => {
+    return(<p>{item.name}</p>)})}
       </div>
       <Container>
         <Link to={`/createParty/${id}`}>
