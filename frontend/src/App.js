@@ -25,6 +25,10 @@ import {
 import { ApiTest } from "./api";
 import { PartiesView, WaitingParty } from "./pages/party";
 import { ChatRoom } from "./pages/chat";
+import { Layout, Row } from "antd";
+import { slide as Menu } from "react-burger-menu";
+
+const { Header } = Layout;
 
 const httpLink = new HttpLink({
   uri: "https://eu1.prisma.sh/peerawas-archavanuntakun-77f2e0/backend/dev"
@@ -68,6 +72,34 @@ function App() {
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
       ></link>
+      <Header
+        style={{
+          position: "fixed",
+          zIndex: 1,
+          width: "100%",
+          backgroundColor: "white"
+        }}
+      >
+        <Row
+          align="middle"
+          type="flex"
+          style={{ height: "100%", width: "100%" }}
+        >
+          <ul className="navbar">
+            <li className="navbar">
+              <a href="/">Home</a>
+            </li>
+            <li className="navbar">
+              <a href="/">Promotions</a>
+            </li>
+            <li className="navbar">
+              <a href="/parties">Party</a>
+            </li>
+          </ul>
+
+          <img src="jourp.png" style={{ height: 20 }} />
+        </Row>
+      </Header>
       <ApolloProvider client={client}>
         <Router>
           {/* Template */}

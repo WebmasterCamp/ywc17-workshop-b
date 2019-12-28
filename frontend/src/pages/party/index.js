@@ -85,7 +85,9 @@ export const WaitingParty = () => {
     >
       {/* <h4>New Party : {JSON.stringify(data.party)}</h4> */}
       {/* <Link to="/chat/123">Let's Chat</Link> */}
-      <Modal title="Matched" visible={isShow}></Modal>
+      <Modal title="Matched" visible={isShow}>
+        <img src="pair.jpg" />
+      </Modal>
     </div>
   );
 };
