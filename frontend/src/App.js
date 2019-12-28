@@ -30,7 +30,7 @@ import { Menu } from "./pages/menu";
 import { ReviewPage } from "./pages/review";
 import {Tracking} from "./pages/tracking"
 
-const { Header } = Layout;
+const { Header, Content } = Layout;
 
 const httpLink = new HttpLink({
   uri: "https://eu1.prisma.sh/peerawas-archavanuntakun-77f2e0/backend/dev"
@@ -80,7 +80,7 @@ function App() {
           zIndex: 1,
           width: "100%",
           backgroundColor: "white",
-          padding: "initial",
+          padding: "initial"
         }}
       >
         <Row
@@ -104,38 +104,42 @@ function App() {
         </Row>
       </Header>
       <ApolloProvider client={client}>
-        <Router>
-          {/* Template */}
-          <Switch>
-            <Route exact path="/" component={HomePage} />
-            {/* view all promotions */}
-            <Route path="/static/">
-              {/* ... some MOCK static 0,1,2,3,4 */}
-            </Route>
-            <Route path="/menu" component={Menu} />
-            {/* view all promotions */}
-            <Route path="/promotion/:id" component={PromotionView} />
-            <Route path="/createParty/:promoid" component={CreatePartyPage} />
-            <Route path="/parties">
-              <PartiesView />
-              {/* filter by promotions, location, etc. using URI query  */}
-            </Route>
-            <Route path="/users/:id">{/* user*/}</Route>
-            <Route path="/chat/:id">
-              {/* chat with party */}
-              <ChatRoom />
-            </Route>
-            <Route path="/waitingParty">
-              <WaitingParty />
-            </Route>
-            <Route path="/review" component={ReviewPage} />
-            {/* some finallize route */}
             <Route path="/tracking/:id" component={Tracking} />
-            <Route path="/api">
-              <ApiTest />
-            </Route>
-          </Switch>
-        </Router>
+        <div style={{ paddingTop: 64 }}>
+          <Router>
+            {/* Template */}
+            <Switch>
+              <Route exact path="/" component={HomePage} />
+              {/* view all promotions */}
+              <Route path="/static/">
+                {/* ... some MOCK static 0,1,2,3,4 */}
+              </Route>
+              <Route path="/menu" component={Menu} />
+              {/* view all promotions */}
+              <Route path="/promotion/:id" component={PromotionView} />
+              <Route path="/createParty/:promoid" component={CreatePartyPage} />
+              <Route path="/parties">
+                <PartiesView />
+                {/* filter by promotions, location, etc. using URI query  */}
+              </Route>
+              <Route path="/users/:id">{/* user*/}</Route>
+              <Route path="/chat/:id">
+                {/* chat with party */}
+                <ChatRoom />
+              </Route>
+              <Route path="/waitingParty">
+                <WaitingParty />
+              </Route>
+              <Route path="/tracking/:id" component={Tracking} />
+              <Route path="/review" component={ReviewPage} />
+              {/* some finallize route */}
+
+              <Route path="/api">
+                <ApiTest />
+              </Route>
+            </Switch>
+          </Router>
+        </div>
       </ApolloProvider>
     </div>
   );
