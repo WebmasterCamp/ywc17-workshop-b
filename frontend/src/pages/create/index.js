@@ -1,6 +1,6 @@
 import React from "react";
 import { List, Input, Button, Form, Card } from "antd";
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery, useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import { range, gqlReady } from "../../util";
 import Meta from "antd/lib/card/Meta";
@@ -42,10 +42,12 @@ const CreatePartyPage = ({ form: { getFieldDecorator, validateFields } }) => {
     e.preventDefault();
     validateFields((err, values) => {
       // values example `{name: "abcd", usernamme: "intaniger", tel: "0989417565", description: "SSO"}`
+
+      
       if (!err) {
         console.log("Received values of form: ", values);
       }
-      window.location = "/waitingParty"
+      window.location.href = "/waitingParty"
     });
   };
   console.log(coverImageUrl);

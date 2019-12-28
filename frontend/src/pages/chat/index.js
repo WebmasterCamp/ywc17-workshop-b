@@ -52,12 +52,11 @@ export const ChatRoom = () => {
   // }];
 
   return (
-    <div
+    <img
+    src="/chat.png"
       style={{
-        backgroundImage: "url('chat.png')"
+        backgroundImage: "url('/chat.png')"
       }}
-    >
-      {/* <h4>New Party : {JSON.stringify(data)}</h4> */}
-    </div>
+    />
   );
 };
